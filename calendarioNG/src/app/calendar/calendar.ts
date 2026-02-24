@@ -1,6 +1,8 @@
+// SIGNAL => CREA UN CONTENITORE REATTIVO CHE SI AGGIORNA IN BASE A DETERMINATE CIRCOSTANZE
+// COMPUTED => CREA UN CONTENITORE CHE SI AGGIORNA AUTOMATICAMENTE QUANDO I SIGNAL CHE LO COMPONGONO CAMBIANO
 import { Component, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+// INTERFACE => DEFINISCE LA STRUTTURA DI UN OGGETTO, IN QUESTO CASO RAPPRESENTA UN GIORNO DEL CALENDARIO
 interface CalendarDay {
   date: number;
   otherMonth: boolean;
@@ -15,12 +17,12 @@ interface CalendarDay {
   styleUrls: ['./calendar.css']
 })
 export class CalendarComponent {
-
-  // giorni della settimana (puoi cambiarli in LUN/MAR ecc.)
+  // VARIABILE CHE CONTIENE I NOMI DEI GIORNI DELLA SETTIMANA, USATA NEL TEMPLATE PER RENDERIZZARE LE INTESTAZIONI
   weekDays = ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'];
-
+  // VARIABILE PRIVATA CHE CONTIENE LA DATA ODIERNA, USATA PER DETERMINARE QUALI GIORNI RENDERIZZARE COME "OGGI"
   private today = new Date();
 
+  // IN QUESTI SIGNAL VENGONO MEMORIZZATI L'ANNO E IL MESE ATTUALI DEL CALENDARIO, SFRUTTANDO METODI PER MANIPOLARE I Date
   year = signal(this.today.getFullYear());
   month = signal(this.today.getMonth()); // 0-11
 
