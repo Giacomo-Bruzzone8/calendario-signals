@@ -1,158 +1,105 @@
-# 📘 OGGETTO **Date** IN TYPESCRIPT / JAVASCRIPT
-
-## 1. **QUALI SONO I PARAMETRI DI INGRESSO?**
-
+# OGGETTO DATE IN TYPESCRIPT / JAVASCRIPT
+1. QUALI SONO I PARAMETRI DI INGRESSO?
 Le forme principali sono:
 
-### **A — Senza argomenti**
-```ts
-const d = new Date();
-```
 
-### **B — Con timestamp (millisecondi dal 1/1/1970 UTC)**
-```ts
-const d = new Date(1700000000000);
-```
+A- Senza Argomenti ->
+ esempio => const d = new Date();
 
-### **C — Con stringa**
-```ts
-const d = new Date('2024-02-25T10:30:00');
-```
-**NOTA BENE!!** Prestare attenzione al formato della stringa.
+B- Con Timestamp (millisecondi dal 1/1/1970 UTC)
+ esempio => const d = new Date(1700000000000);
 
-### **D — Con parametri numerici separati**
-```ts
-const d = new Date(year, monthIndex, day?, hours?, minutes?, seconds?, ms?);
-```
+C- Con Stringa ->
+ esempio => const d = new Date('2024-02-25T10:30:00'); !PRESTARE ATTENZIONE AL FORMATO!
 
-### **SPIEGAZIONE DEI PARAMETRI**
-- `year` → anno (es. 2024)
-- `monthIndex` → **0–11** (0 = gennaio, 11 = dicembre)
-- `day` → 1–31 (default: 1)
-- `hours` → 0–23 (default: 0)
-- `minutes`, `seconds`, `ms` → opzionali, default 0
+D- Con parametri numerici separati
+ esempio => const d = new Date(year, monthIndex, day?, hours?, minutes?, seconds?, ms?);
 
-### **Caso specifico usato nel calendario**
-```ts
-new Date(year, month, 1);
-```
-- `year` = anno  
-- `month` = indice del mese (0–11)  
-- `1` = primo giorno del mese  
+SPIEGAZIONE DEI PARAMETRI =>
+year → anno (es. 2024)
+monthIndex → 0–11 (0 = gennaio, 11 = dicembre)
+day → 1–31 (default: 1)
+hours → 0–23 (default: 0)
+minutes, seconds, ms → opzionali, default 0
 
----
+caso specifico -> new Date(year, month, 1);
+year = anno
+month = indice del mese (0 - 11)
+1 = primo giorno del mese
 
-## 2. **Come si fa ad “ereditarlo”?**
+2. Come si fa ad “ereditarlo”?
+Date è una classe nativa di JavaScript, disponibile globalmente. NON SI EREDITA.
+Quindi quando si scrive => private today = new Date();
+stiamo istanziando un oggetto della classe nativa Date.
 
-**NON SI EREDITA.**
+3. Metodi nativi di Date
+Getters:
 
-`Date` è una **classe nativa** di JavaScript, disponibile globalmente.
+- getFullYear() → anno (es. 2024)
+- getMonth() → mese 0–11
+- getDate() → giorno del mese 1–31
+- getDay() → giorno della settimana 0–6 (0 = domenica)
+- getHours(), getMinutes(), getSeconds()
 
-Quando scrivi:
-```ts
-private today = new Date();
-```
-stai semplicemente **istanziando** un oggetto della classe `Date`.
+Setters:
 
----
+- setFullYear(anno)
+- setMonth(meseIndex)
+- setDate(giorno)
+- setHours(), setMinutes(), ecc.
 
-## 3. **Metodi nativi di Date**
+Altri metodi utili:
 
-### **Getters**
-- `getFullYear()` → anno (es. 2024)
-- `getMonth()` → mese 0–11
-- `getDate()` → giorno del mese 1–31
-- `getDay()` → giorno della settimana 0–6 (0 = domenica)
-- `getHours()`, `getMinutes()`, `getSeconds()`
+- getTime() → timestamp in millisecondi
+- toISOString() → stringa ISO
+- toLocaleString(locale, options) → formattazione localizzata (come nel tuo monthName)
 
-### **Setters**
-- `setFullYear(anno)`
-- `setMonth(meseIndex)`
-- `setDate(giorno)`
-- `setHours()`, `setMinutes()`, ecc.
+# COME SI RECUPERANO I NOMI DEI MESI
 
-### **Altri metodi utili**
-- `getTime()` → timestamp in millisecondi
-- `toISOString()` → stringa ISO
-- `toLocaleString(locale, options)` → formattazione localizzata
-
----
-
-# 📅 COME SI RECUPERANO I NOMI DEI MESI
-
-```ts
 monthName = computed(() =>
   new Date(this.year(), this.month(), 1).toLocaleString('it-IT', { month: 'long' })
 );
-```
 
-### **Cosa accade qui**
+Ecco quello che accade => new Date(this.year(), this.month(), 1) 
+- this.year() → legge il valore del signal year.
+- this.month() → legge il valore del signal month.
+- 1 → primo giorno del mese
 
-#### Parte 1 — Creazione della data
-```ts
-new Date(this.year(), this.month(), 1)
-```
-- `this.year()` → legge il valore del signal `year`
-- `this.month()` → legge il valore del signal `month`
-- `1` → primo giorno del mese
+Mentre quello che accade => .toLocaleString('it-IT', { month: 'long' }):
+- it-IT → locale italiana
+- { month: 'long' } → nome completo del mese (es. "febbraio")
 
-#### Parte 2 — Formattazione
-```ts
-.toLocaleString('it-IT', { month: 'long' })
-```
-- `'it-IT'` → locale italiana  
-- `{ month: 'long' }` → nome completo del mese (es. `"febbraio"`)
+Perché si aggiorna da solo?
+Perché è un computed:
+- Dipende da this.year() e this.month().
 
-### **Perché si aggiorna da solo?**
+Quando uno dei due signal cambia (year.set(...) o month.set(...)), Angular ricalcola automaticamente il valore del computed.
 
-Perché è un **computed**:
+Il template che lo usa (es. {{ monthName() }}) si aggiorna di conseguenza.
 
-- dipende da `this.year()` e `this.month()`
-- quando uno dei due cambia → Angular ricalcola automaticamente il valore
-- il template che usa `{{ monthName() }}` si aggiorna in automatico
+# GENERICS E INTERFACCIA
 
----
-
-# 🧩 GENERICS E INTERFACCIA
-
-```ts
 days = signal<CalendarDay[]>([]);
-```
 
-### **Perché si usano `< >`?**
-Sono **generics TypeScript**.
+Perché si usano < > e cosa significano:
+- si tratta delle generics di typescript
+- questo signal conterrà un valore di TIPO → CalendarDay[] (array di CalendarDay).
+- il valore iniziale è [] (array vuoto).
 
-Significa:
+! Questo ci permette di definire la struttura dei giorni !
 
-- questo signal conterrà un valore di tipo **`CalendarDay[]`**
-- il valore iniziale è `[]` (array vuoto)
-
-**NOTA BENE!!**  
-Questo permette di definire la struttura dei giorni del calendario.
-
-### **Quando fai:**
-```ts
+Quindi quando si dichiara =>
 const d = this.days();
-```
-- `d` è di tipo **`CalendarDay[]`**
+- d sarà di tipo CalendarDay[].
+- signal<CalendarDay[]>(...) dice a TypeScript → Questo signal conterrà sempre un array di CalendarDay.
 
-### **Vantaggi**
-- Autocompletamento:
-  ```ts
-  this.days().map(day => day.isToday)
-  ```
-- Sicurezza:
-  ```ts
-  this.days.set([{ foo: 123 }]) // ❌ ERRORE
-  ```
-  perché non rispetta l’interfaccia `CalendarDay`.
+Vantaggi:
+- Autocompletamento: this.days().map(day => day.isToday) è tipizzato.
+- Sicurezza: non puoi fare this.days.set([ { foo: 123 } ]) perché non rispetta CalendarDay.
 
----
+# COME SI USA THIS
 
-# 🧠 COME SI USA `this`
-
-### Esempio
-```ts
+Esempio di codice →
 prevMonth() {
   const m = this.month();
   const y = this.year();
@@ -164,29 +111,24 @@ prevMonth() {
   }
   this.generateDays();
 }
-```
 
-### **A cosa si riferisce `this`?**
 
-In una classe TypeScript/JavaScript:
+A cosa si riferisce this??
+- In una classe TypeScript/JavaScript, this si riferisce all’istanza della classe
 
-👉 **`this` è l’istanza della classe.**
-
-Nel tuo caso:
-
-```ts
 export class CalendarComponent {
   year = signal(this.today.getFullYear());
   month = signal(this.today.getMonth());
+
+  prevMonth() {
+    const m = this.month();
+    ...
+  }
 }
-```
 
-- `this` → istanza di `CalendarComponent`
-- `this.year` → campo della classe (signal dell’anno)
-- `this.month` → campo della classe (signal del mese)
-- `this.generateDays()` → metodo della stessa istanza
+- this è l’istanza di CalendarComponent.
+- this.year → campo della classe che contiene il signal dell’anno.
+- this.month → campo della classe che contiene il signal del mese.
+- this.generateDays() chiama il metodo generateDays della stessa istanza.
 
-**NOTA BENE!!**  
-👉 `this` **NON** è un oggetto `Date`.  
-👉 `this` è il **componente Angular**.
-
+! QUINDI this È IL COMPONENTE ANGULAR CalendarComponent !
