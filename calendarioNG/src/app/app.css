@@ -34,24 +34,24 @@
   box-shadow: 0 0 20px rgba(0,0,0,0.4);
 }
 .image-container {
-  position: relative; /* il contenitore fa da riferimento */
+  position: relative;
   width: 100%;
-  height: 0; /* non occupa spazio */
+  height: 0;
 }
 
 .gengar-img {
   position: absolute;
-  top: -160px;   /* regola come vuoi */
-  left: 200px;  /* regola come vuoi */
-  width: 180px; /* dimensione gengar */
-  pointer-events: none; /* non blocca i click */
+  top: -160px;
+  left: 200px;
+  width: 180px;
+  pointer-events: none;
 }
 
 
 .duskull-img {
   position: absolute;
-  top: -370px;   /* regola come vuoi */
-  right: 80px;  /* regola come vuoi */
-  width: 400px; /* dimensione gengar */
-  pointer-events: none; /* non blocca i click */
+  top: -370px;
+  right: 80px;
+  width: 400px;
+  pointer-events: none;
 }
