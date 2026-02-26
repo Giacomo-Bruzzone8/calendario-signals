@@ -2,18 +2,18 @@
 
   <!-- HEADER -->
   <header class="calendar-header">
-    <button class="nav-btn" (click)="prevMonth()">&#10094;</button>
+    <button class="nav-btn" (click)="mesePrecedente()">&#10094;</button>
 
     <h2 class="calendar-title">
-      {{ monthName() }} {{ year() }}
+      {{ nomeDelMese() }} {{ anno() }}
     </h2>
 
-    <button class="nav-btn" (click)="nextMonth()">&#10095;</button>
+    <button class="nav-btn" (click)="meseSuccessivo()">&#10095;</button>
   </header>
 
   <!-- GIORNI DELLA SETTIMANA -->
-  <div class="weekdays">
-    <div *ngFor="let day of weekDays">
+  <div class="giorniDellaSettimana">
+    <div *ngFor="let day of giorniDellaSettimana">
       {{ day }}
     </div>
   </div>
@@ -21,10 +21,10 @@
   <!-- GRIGLIA GIORNI -->
   <div class="days-grid">
     <div
-      *ngFor="let day of days()"
+      *ngFor="let day of giorni()"
       class="day-cell"
       [class.other-month]="day.otherMonth"
-      [class.today]="day.isToday"
+      [class.today]="day.giornoAttuale"
       (click)="selectDay(day)"
     >
       {{ day.date }}
