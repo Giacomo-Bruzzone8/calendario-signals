@@ -11,14 +11,14 @@
 }
 
 
-.calendar-header {
+.intestazioneCalendario {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
 }
 
-.calendar-title {
+.meseEanno {
   font-size: 1.4rem;
   margin: 0;
 }
@@ -38,24 +38,24 @@
   margin-bottom: 10px;
 }
 
-.days-grid {
+.grigliaCalendario {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 6px;
 }
 
-.day-cell {
+.cellaCalendario {
   padding: 10px;
   text-align: center;
   border-radius: 6px;
   cursor: pointer;
 }
 
-.day-cell.other-month {
+.cellaCalendario.meseDiverso {
   color: #aaa;
 }
 
-.day-cell.today {
+.cellaCalendario.oggi {
   background: #007bff;
   color: white;
   font-weight: bold;

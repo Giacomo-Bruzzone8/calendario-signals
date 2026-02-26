@@ -1,33 +1,32 @@
 <div class="calendar-container">
 
-  <!-- HEADER -->
-  <header class="calendar-header">
-    <button class="nav-btn" (click)="mesePrecedente()">&#10094;</button>
+  <header class="intestazioneCalendario">
+    <button class="nav-btn" (click)="mesePrecedente()">&#10094;</button>  <!--&#10094 → icona del Maggiore-->
 
-    <h2 class="calendar-title">
+    <h2 class="meseEanno">
       {{ nomeDelMese() }} {{ anno() }}
     </h2>
 
-    <button class="nav-btn" (click)="meseSuccessivo()">&#10095;</button>
+    <button class="nav-btn" (click)="meseSuccessivo()">&#10095;</button> <!--&#10095 → icona del Minore-->
   </header>
 
   <!-- GIORNI DELLA SETTIMANA -->
   <div class="giorniDellaSettimana">
-    <div *ngFor="let day of giorniDellaSettimana">
-      {{ day }}
+    <div *ngFor="let giorno of giorniDellaSettimana">
+      {{ giorno }}
     </div>
   </div>
 
-  <!-- GRIGLIA GIORNI -->
-  <div class="days-grid">
+  <!-- GRIGLIA CALENDARIO -->
+  <div class="grigliaCalendario">
     <div
-      *ngFor="let day of giorni()"
-      class="day-cell"
-      [class.other-month]="day.otherMonth"
-      [class.today]="day.giornoAttuale"
-      (click)="selectDay(day)"
+      *ngFor="let giorno of giorniDelCalendario()"
+      class="cellaCalendario"
+      [class.meseDiverso]="giorno.meseDiverso"
+      [class.oggi]="giorno.giornoAttuale"
+      (click)="giornoSelezionato(giorno)"
     >
-      {{ day.date }}
+      {{ giorno.data }}
     </div>
   </div>
 
