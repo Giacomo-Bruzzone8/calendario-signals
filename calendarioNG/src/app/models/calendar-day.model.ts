@@ -1,5 +1,5 @@
 export interface CalendarDay {
-  data: number;
+  numero_del_giorno_del_calendario: number;
   meseDiverso: boolean;
   giornoAttuale: boolean;
 }

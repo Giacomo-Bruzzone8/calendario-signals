@@ -83,7 +83,7 @@ export class CalendarComponent {
     for (let i = indicePrimoGiornoSettimana - 1; i >= 0; i--) {
       //* popolo l'array con il lunedì del mese precedente, decrementando fino a riempire i giorni mancanti,
       giorniDaVisualizzare.push({
-        data: giorniDelMesePrecedente - i,
+        numero_del_giorno_del_calendario: giorniDelMesePrecedente - i,
         meseDiverso: true, // meseDiverso: true mi permette di riconoscere i giorni del mese precedente
         giornoAttuale: false
       });
@@ -96,21 +96,21 @@ export class CalendarComponent {
 
       //* per ogni iterazione del ciclo spingo il giorno del meseCorrente nell' array.
       giorniDaVisualizzare.push({
-        data: giorno,
+        numero_del_giorno_del_calendario: giorno,
         meseDiverso: false,
         giornoAttuale //* se giornoAttuale è true, lo riconosco come "oggi"
       });
     }
-    //* WHILE: Itera fino a quando non si raggiunge un numero di giorni che è multiplo di 7,
+    //* WHILE: Itera sino a quando la condizione è verificata
     //* aggiungendo i giorni del mese successivo se necessario per completare l'ultima settimana del calendario.
-    let giornoSuccessivo = 1;
+    let count = 1;
     while (giorniDaVisualizzare.length % 7 !== 0) {
       giorniDaVisualizzare.push({
-        data: giornoSuccessivo,
+        numero_del_giorno_del_calendario: count,
         meseDiverso: true,
         giornoAttuale: false
       });
-      giornoSuccessivo++;
+      count++;
     }
 
     //* aggiorno il calendario con la nuova lista di giorni, innescando un aggiornamento del template grazie alla reattività dei signal
