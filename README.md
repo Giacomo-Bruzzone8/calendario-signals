@@ -36,3 +36,7 @@ Avvia l’applicazione:
 ng serve
 
 ```
+
+## Contatti
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Giacomo%20Bruzzone-blue?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/giacomo-bruzzone-fullstackdeveloper/)
