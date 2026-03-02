@@ -13,7 +13,6 @@ import { CalendarDay } from '../models/calendar-day.model';
 export class CalendarComponent {
   // VARIABILI
   giorniDellaSettimana = ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'];
-  giorniDelCalendario = signal<CalendarDay[]>([]);
 
   // VARIABILI PRIVATE
   private oggi = new Date();
@@ -21,6 +20,8 @@ export class CalendarComponent {
   // SIGNAL
   anno = signal(this.oggi.getFullYear());
   mese = signal(this.oggi.getMonth());
+  giorniDelCalendario = signal<CalendarDay[]>([]);
+  giornoSelezionatoSignal = signal<CalendarDay | null>(null);
 
   // COMPUTED SIGNAL
   nomeDelMese = computed(() =>
@@ -60,8 +61,7 @@ export class CalendarComponent {
   }
 
   giornoSelezionato(giorno: CalendarDay) {
-    console.log('Giorno selezionato:', giorno);
-    // TODO COMBINO COSE
+    this.giornoSelezionatoSignal.set(giorno);
   }
 
   private generaGiorni() {
@@ -81,31 +81,37 @@ export class CalendarComponent {
 
     //* aggiungo i giorni finali del mese precedente per riempire la prima settimana (se il mese non inizia di lunedì)
     for (let i = indicePrimoGiornoSettimana - 1; i >= 0; i--) {
-      //* popolo l'array con il lunedì del mese precedente, decrementando fino a riempire i giorni mancanti,
       giorniDaVisualizzare.push({
+        anno: meseCalendario === 0 ? annoCalendario - 1 : annoCalendario,
+        mese: meseCalendario === 0 ? 11 : meseCalendario - 1,
         numero_del_giorno_del_calendario: giorniDelMesePrecedente - i,
-        meseDiverso: true, // meseDiverso: true mi permette di riconoscere i giorni del mese precedente
+        meseDiverso: true,
         giornoAttuale: false
       });
     }
 
     //* riconosco i giorni del mese corrente da renderizzare
     for (let giorno = 1; giorno <= giorniDelMeseCorrente; giorno++) {
-      //* riconosco "oggi" confrontando giorno, mese e anno generati con quelli della data odierna.
+  
       const giornoAttuale = giorno === this.oggi.getDate() && meseCalendario === this.oggi.getMonth() && annoCalendario === this.oggi.getFullYear();
 
       //* per ogni iterazione del ciclo spingo il giorno del meseCorrente nell' array.
       giorniDaVisualizzare.push({
+        anno: annoCalendario,
+        mese: meseCalendario,
         numero_del_giorno_del_calendario: giorno,
         meseDiverso: false,
         giornoAttuale //* se giornoAttuale è true, lo riconosco come "oggi"
       });
     }
-    //* WHILE: Itera sino a quando la condizione è verificata
-    //* aggiungendo i giorni del mese successivo se necessario per completare l'ultima settimana del calendario.
+
+    //* WHILE: Itera sino a quando la condizione è verificata.
+    //* Aggiungendo i giorni del mese successivo se necessario per completare l'ultima settimana del calendario.
     let count = 1;
     while (giorniDaVisualizzare.length % 7 !== 0) {
       giorniDaVisualizzare.push({
+        anno: meseCalendario === 11 ? annoCalendario + 1 : annoCalendario,
+        mese: meseCalendario === 11 ? 0 : meseCalendario + 1,
         numero_del_giorno_del_calendario: count,
         meseDiverso: true,
         giornoAttuale: false

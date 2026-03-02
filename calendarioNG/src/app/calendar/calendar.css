@@ -60,3 +60,6 @@
   color: white;
   font-weight: bold;
 }
+.cellaCalendario.selezionato {
+  border: 2px solid red;
+}

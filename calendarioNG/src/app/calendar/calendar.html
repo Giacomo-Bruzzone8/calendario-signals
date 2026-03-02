@@ -24,6 +24,11 @@
       class="cellaCalendario"
       [class.meseDiverso]="giorno.meseDiverso"
       [class.oggi]="giorno.giornoAttuale"
+      [class.selezionato]="
+      giornoSelezionatoSignal()?.numero_del_giorno_del_calendario === giorno.numero_del_giorno_del_calendario && 
+      giornoSelezionatoSignal()?.mese === giorno.mese && 
+      giornoSelezionatoSignal()?.anno === giorno.anno && !giorno.meseDiverso
+      "
       (click)="giornoSelezionato(giorno)"
     >
       {{ giorno.numero_del_giorno_del_calendario }}
