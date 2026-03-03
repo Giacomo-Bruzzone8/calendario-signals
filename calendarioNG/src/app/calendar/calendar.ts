@@ -29,21 +29,24 @@ export class CalendarComponent {
   );
 
   // COMPUTED SIGNAL DI TIPO CalendarDay
-    giorniMesePrecedente = computed<CalendarDay[]>(() => {
-      const annoCalendario = this.anno(); 
-      const meseCalendario = this.mese(); 
-      const giorniDelMesePrecedente = new Date(annoCalendario, meseCalendario, 0).getDate();
-      const primoGiornoDelMese = new Date(annoCalendario, meseCalendario, 1);
-      const indicePrimoGiornoSettimana = (primoGiornoDelMese.getDay() + 6) % 7;
-      
-      return Array.from({ length: indicePrimoGiornoSettimana }, (_, i) => ({
-        anno: meseCalendario === 0 ? annoCalendario - 1 : annoCalendario,
-        mese: meseCalendario === 0 ? 11 : meseCalendario - 1, 
-        numero_del_giorno_del_calendario: giorniDelMesePrecedente - (indicePrimoGiornoSettimana - 1 - i), 
-        meseDiverso: true,
-        giornoAttuale: false
-      })); 
-    });
+ giorniMesePrecedente = computed<CalendarDay[]>(() => {
+  const annoCalendario = this.anno();
+  const meseCalendario = this.mese();
+  const giorniDelMesePrecedente = new Date(annoCalendario, meseCalendario, 0).getDate();
+  const primoGiornoDelMese = new Date(annoCalendario, meseCalendario, 1);
+  const indicePrimoGiornoSettimana = (primoGiornoDelMese.getDay() + 6) % 7;
+
+  return Array.from({ length: indicePrimoGiornoSettimana }, (_, i) => ({
+    anno: meseCalendario === 0 ? annoCalendario - 1 : annoCalendario,
+    mese: meseCalendario === 0 ? 11 : meseCalendario - 1,
+    numero_del_giorno_del_calendario:
+      giorniDelMesePrecedente - (indicePrimoGiornoSettimana - 1 - i),
+    giornoAttuale: false,
+    mesePrecedente: true,
+    meseSuccessivo: false
+  }));
+});
+
 
     giorniMeseCorrente = computed<CalendarDay[]>(() => {
       const annoCalendario = this.anno();
@@ -61,30 +64,32 @@ export class CalendarComponent {
           anno: annoCalendario,
           mese: meseCalendario,
           numero_del_giorno_del_calendario: giorno,
-          meseDiverso: false,
+          meseCorrente: true,
           giornoAttuale
         };
     });
   });
   
-  giorniMeseSuccessivo = computed<CalendarDay[]>(() => {
-    const annoCalendario = this.anno();
-    const meseCalendario = this.mese();
+ giorniMeseSuccessivo = computed<CalendarDay[]>(() => {
+  const annoCalendario = this.anno();
+  const meseCalendario = this.mese();
 
-    const giorniPrecedenti = this.giorniMesePrecedente();
-    const giorniCorrenti = this.giorniMeseCorrente();
+  const giorniPrecedenti = this.giorniMesePrecedente();
+  const giorniCorrenti = this.giorniMeseCorrente();
 
-    const totale = [...giorniPrecedenti, ...giorniCorrenti];
-    const giorniMancanti = (7 - (totale.length % 7)) % 7;
+  const totale = [...giorniPrecedenti, ...giorniCorrenti];
+  const giorniMancanti = (7 - (totale.length % 7)) % 7;
 
-    return Array.from({ length: giorniMancanti }, (_, i) => ({
-      anno: meseCalendario === 11 ? annoCalendario + 1 : annoCalendario,
-      mese: meseCalendario === 11 ? 0 : meseCalendario + 1,
-      numero_del_giorno_del_calendario: i + 1,
-      meseDiverso: true,
-      giornoAttuale: false
-    }));
-  });
+  return Array.from({ length: giorniMancanti }, (_, i) => ({
+    anno: meseCalendario === 11 ? annoCalendario + 1 : annoCalendario,
+    mese: meseCalendario === 11 ? 0 : meseCalendario + 1,
+    numero_del_giorno_del_calendario: i + 1,
+    giornoAttuale: false,
+    mesePrecedente: false,
+    meseSuccessivo: true
+  }));
+});
+
 
   giorniDelCalendario = computed<CalendarDay[]>(() => [
   ...this.giorniMesePrecedente(),
@@ -109,5 +114,6 @@ meseSuccessivo() {
 
   giornoSelezionato(giorno: CalendarDay) {
     this.giornoSelezionatoSignal.set(giorno);
+    //console.log(this.oggi);
   }
 }

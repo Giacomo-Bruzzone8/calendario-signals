@@ -51,15 +51,55 @@
   cursor: pointer;
 }
 
-.cellaCalendario.meseDiverso {
-  color: #aaa;
-}
-
-.cellaCalendario.oggi {
+.oggi {
   background: #007bff;
   color: white;
   font-weight: bold;
 }
-.cellaCalendario.selezionato {
+.selezionato {
   border: 2px solid red;
 }
+.mesePrecedente { color: #aaaaaa;  }
+.meseSuccessivo { color: #5cb85c;  }
+
+.legendaCalendario {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+  font-size: 0.9rem;
+}
+
+.voceLegenda {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.testoLegenda {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  display: inline-block;
+  border: 1px solid #ccc;
+}
+
+/* Colori coerenti con il calendario */
+.testoLegenda.mesePrecedente {
+  background-color: #aaaaaa; /* rosso */
+}
+
+.testoLegenda.meseSuccessivo {
+  background-color: #5cb85c; /* verde */
+}
+
+.testoLegenda.meseCorrente {
+  background-color: black; /* neutro */
+}
+
+.testoLegenda.oggi {
+  background-color: #0275d8; /* blu */
+}
+
+

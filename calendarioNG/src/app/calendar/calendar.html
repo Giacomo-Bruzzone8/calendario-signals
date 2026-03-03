@@ -12,27 +12,53 @@
 
   <!-- GIORNI DELLA SETTIMANA -->
   <div class="giorniDellaSettimana">
-    <div *ngFor="let giorno of giorniDellaSettimana">
-      {{ giorno }}
-    </div>
+   @for (giorno of giorniDellaSettimana; track giorno) { 
+    <div> 
+      {{ giorno }} 
+    </div> 
+    }
   </div>
 
-  <!-- GRIGLIA CALENDARIO -->
+ <!-- GRIGLIA CALENDARIO -->
   <div class="grigliaCalendario">
-    <div
-      *ngFor="let giorno of giorniDelCalendario()"
-      class="cellaCalendario"
-      [class.meseDiverso]="giorno.meseDiverso"
-      [class.oggi]="giorno.giornoAttuale"
-      [class.selezionato]="
-      giornoSelezionatoSignal()?.numero_del_giorno_del_calendario === giorno.numero_del_giorno_del_calendario && 
-      giornoSelezionatoSignal()?.mese === giorno.mese && 
-      giornoSelezionatoSignal()?.anno === giorno.anno && !giorno.meseDiverso
-      "
-      (click)="giornoSelezionato(giorno)"
-    >
-      {{ giorno.numero_del_giorno_del_calendario }}
+    @for (giorno of giorniDelCalendario(); track giorno.anno + '-' + giorno.mese + '-' + giorno.numero_del_giorno_del_calendario) {
+     <div
+        class="cellaCalendario"
+        [class.meseCorrente]="giorno.meseCorrente"
+        [class.mesePrecedente]="giorno.mesePrecedente"
+        [class.meseSuccessivo]="giorno.meseSuccessivo"
+        [class.oggi]="giorno.giornoAttuale"
+        [class.selezionato]=
+        "
+          giornoSelezionatoSignal()?.numero_del_giorno_del_calendario === giorno.numero_del_giorno_del_calendario &&
+          giornoSelezionatoSignal()?.mese === giorno.mese &&
+          giornoSelezionatoSignal()?.anno === giorno.anno &&
+          giorno.meseCorrente
+        "
+        (click)="giornoSelezionato(giorno)">{{ giorno.numero_del_giorno_del_calendario }}
     </div>
-  </div>
+   } 
+</div>
 
+<!-- LEGENDA -->
+<div class="legendaCalendario">
+  <div class="voceLegenda">
+    <span class="testoLegenda mesePrecedente"></span>
+    <span>Giorni del mese precedente</span>
+  </div>
+  <div class="voceLegenda">
+    <span class="testoLegenda meseCorrente"></span>
+    <span>Giorni del mese corrente</span>
+  </div>
+  <div class="voceLegenda">
+    <span class="testoLegenda meseSuccessivo"></span>
+    <span>Giorni del mese successivo</span>
+  </div>
+  <div class="voceLegenda">
+    <span class="testoLegenda oggi"></span>
+    <span>Oggi</span>
+  </div>
+  <div class="voceLegenda">
+    <span class ="selezionato">Giorno selezionato</span>
+  </div>
 </div>
