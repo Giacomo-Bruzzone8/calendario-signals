@@ -32,6 +32,7 @@ export class CalendarComponent {
  giorniMesePrecedente = computed<CalendarDay[]>(() => {
   const annoCalendario = this.anno();
   const meseCalendario = this.mese();
+  
   const giorniDelMesePrecedente = new Date(annoCalendario, meseCalendario, 0).getDate();
   const primoGiornoDelMese = new Date(annoCalendario, meseCalendario, 1);
   const indicePrimoGiornoSettimana = (primoGiornoDelMese.getDay() + 6) % 7;
@@ -47,28 +48,27 @@ export class CalendarComponent {
   }));
 });
 
+  giorniMeseCorrente = computed<CalendarDay[]>(() => {
+    const annoCalendario = this.anno();
+    const meseCalendario = this.mese();
+    const giorniDelMeseCorrente = new Date(annoCalendario, meseCalendario + 1, 0).getDate();
 
-    giorniMeseCorrente = computed<CalendarDay[]>(() => {
-      const annoCalendario = this.anno();
-      const meseCalendario = this.mese();
-      const giorniDelMeseCorrente = new Date(annoCalendario, meseCalendario + 1, 0).getDate();
+    return Array.from({ length: giorniDelMeseCorrente }, (_, i) => {
+      const giorno = i + 1;
+      const giornoAttuale =
+        giorno === this.oggi.getDate() &&
+        meseCalendario === this.oggi.getMonth() &&
+        annoCalendario === this.oggi.getFullYear();
 
-      return Array.from({ length: giorniDelMeseCorrente }, (_, i) => {
-        const giorno = i + 1;
-        const giornoAttuale =
-          giorno === this.oggi.getDate() &&
-          meseCalendario === this.oggi.getMonth() &&
-          annoCalendario === this.oggi.getFullYear();
-
-        return {
-          anno: annoCalendario,
-          mese: meseCalendario,
-          numero_del_giorno_del_calendario: giorno,
-          meseCorrente: true,
-          giornoAttuale
-        };
-    });
+      return {
+        anno: annoCalendario,
+        mese: meseCalendario,
+        numero_del_giorno_del_calendario: giorno,
+        meseCorrente: true,
+        giornoAttuale
+      };
   });
+});
   
  giorniMeseSuccessivo = computed<CalendarDay[]>(() => {
   const annoCalendario = this.anno();
@@ -89,7 +89,6 @@ export class CalendarComponent {
     meseSuccessivo: true
   }));
 });
-
 
   giorniDelCalendario = computed<CalendarDay[]>(() => [
   ...this.giorniMesePrecedente(),
