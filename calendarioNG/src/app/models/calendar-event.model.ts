@@ -45,6 +45,7 @@ export interface SpeseRicorsive
 // SONNO
 export interface Sonno extends Tempo {
   tipo: 'Sonno';
+  sogni?: string;
 }
 
 export interface EventoProgrammato {
