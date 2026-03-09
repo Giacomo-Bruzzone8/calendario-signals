@@ -1,0 +1,23 @@
+.timeline-container {
+  width: 260px;
+  height: 260px;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.timeline-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.background-circle {
+  stroke-width: 12;
+  fill: none;
+}
+.tacca-label {
+  fill: #e0e0e0;
+  font-size: 14px;
+  font-weight: 600;
+}

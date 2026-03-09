@@ -1,10 +1,11 @@
 import { Component, signal } from '@angular/core';
 import { CalendarComponent } from "./calendar/calendar";
 import { Navbar } from "./navbar/navbar";
+import { TimelineCircolare } from "./timeline-circolare/timeline-circolare";
 
 @Component({
   selector: 'app-root',
-  imports: [ CalendarComponent, Navbar],
+  imports: [ CalendarComponent, Navbar, TimelineCircolare ],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

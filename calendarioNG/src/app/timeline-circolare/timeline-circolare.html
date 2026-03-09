@@ -1,0 +1,33 @@
+<div class="timeline-container">
+
+  <!-- Pulsante per cambiare modalità -->
+  <button (click)="modalita = modalita === 'giorno' ? 'notte' : 'giorno'">
+    Passa a {{ modalita === 'giorno' ? 'notte' : 'giorno' }}
+  </button>
+
+  <!-- SVG principale -->
+  <svg width="200" height="200" viewBox="0 0 200 200">
+
+    <!-- Cerchio di sfondo -->
+    <circle cx="100" cy="100" r="90" fill="#111" stroke="#333" stroke-width="2" />
+
+    <!-- Tacche delle ore -->
+    <g stroke="white" stroke-width="2">
+      <ng-container *ngFor="let t of (modalita === 'giorno' ? taccheGiorno : taccheNotte)">
+        <path [attr.d]="generaTacca(t.angolo)" />
+      </ng-container>
+    </g>
+
+    <!-- Archi delle attività -->
+    <g stroke-width="8" fill="none">
+      <ng-container *ngFor="let a of attivitaMock">
+        <path
+          [attr.d]="calcolaArcoAttivita(a)"
+          [attr.stroke]="getColore(a)"
+        />
+      </ng-container>
+    </g>
+
+  </svg>
+
+</div>
