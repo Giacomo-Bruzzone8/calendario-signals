@@ -13,19 +13,29 @@
 
     <!-- Tacche delle ore -->
     <g stroke="white" stroke-width="2">
-      <ng-container *ngFor="let t of (modalita === 'giorno' ? taccheGiorno : taccheNotte)">
-        <path [attr.d]="generaTacca(t.angolo)" />
-      </ng-container>
+
+      @if (modalita === 'giorno') {
+        @for (t of taccheGiorno; track t.ora) {
+          <path [attr.d]="generaTacca(t.angolo)" [attr.stroke]="t.colore" />
+        }
+      } @else {
+        @for (t of taccheNotte; track t.ora) {
+          <path [attr.d]="generaTacca(t.angolo)" [attr.stroke]="t.colore" />
+        }
+      }
+
     </g>
 
     <!-- Archi delle attività -->
     <g stroke-width="8" fill="none">
-      <ng-container *ngFor="let a of attivitaMock">
+
+      @for (a of eventi; track a.start) {
         <path
           [attr.d]="calcolaArcoAttivita(a)"
           [attr.stroke]="getColore(a)"
         />
-      </ng-container>
+      }
+
     </g>
 
   </svg>

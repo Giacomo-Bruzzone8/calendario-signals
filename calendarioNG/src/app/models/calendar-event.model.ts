@@ -1,4 +1,3 @@
-// BASE TEMPORALE
 export interface Tempo {
   start: string; // ISO: "2026-03-06T14:00"
   end: string;   // ISO: "2026-03-06T16:00"
@@ -97,7 +96,7 @@ export interface Ricavi {
 export interface SpeseRicorsive {
   tipo: 'SpeseRicorsive';
   importoSpeso: number;
-  categoria?: string;
+  categoria: string;
 }
 
 // EVENTO PROGRAMMATO (non temporale)
