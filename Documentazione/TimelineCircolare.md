@@ -9,15 +9,20 @@ Per chiarire la visione concettuale, vengono utilizzati due schizzi preliminari 
 
 ## Rappresentazione concettuale
 
-### Ciclo diurno (08 → 19)
+<div style="display: flex; gap: 30px; justify-content: center; align-items: center; margin: 20px 0;">
+  <div style="text-align: center;">
+    <strong>Ciclo diurno (08 → 19)</strong><br>
+    <img src="../public/img/timeline-circolare-sole.png" width="220">
+  </div>
 
-![Timeline Circolare - Sole](public/img/timeline-circolare-sole.png)
-
-### Ciclo notturno (20 → 07)
-
-![Timeline Circolare - Luna](public/img/timeline-circolare-luna.png)
+  <div style="text-align: center;">
+    <strong>Ciclo notturno (20 → 07)</strong><br>
+    <img src="../public/img/timeline-circolare-luna.png" width="220">
+  </div>
+</div>
 
 ---
+
 
 Questi schizzi non rappresentano lo stile finale del componente, ma svolgono un ruolo fondamentale:  
 **stabiliscono il modello mentale** su cui si basa l’intera architettura del Timeline Circolare.
