@@ -16,7 +16,7 @@ Per chiarire la visione concettuale, vengono utilizzati due schizzi preliminari 
 ### Ciclo notturno (20 → 07)
 
 ![Timeline Circolare - Luna](public/img/timeline-circolare-luna.png)
-C:\Users\bruzz\Desktop\SpazioLavoro\Angular\calendario-signals\calendarioNG\public\img\timeline-circolare-sole.png
+
 ---
 
 Questi schizzi non rappresentano lo stile finale del componente, ma svolgono un ruolo fondamentale:  
