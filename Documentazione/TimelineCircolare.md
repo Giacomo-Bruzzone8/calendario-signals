@@ -11,12 +11,12 @@ Per chiarire la visione concettuale, vengono utilizzati due schizzi preliminari 
 
 ### Ciclo diurno (08 → 19)
 
-![Timeline Circolare - Sole](public/img/timeline-circolare-sole.png)
+![Timeline Circolare - Sole](../public/img/timeline-circolare-sole.png)
 
 ### Ciclo notturno (20 → 07)
 
-![Timeline Circolare - Luna](public/img/timeline-circolare-luna.png)
-
+![Timeline Circolare - Luna](../public/img/timeline-circolare-luna.png)
+C:\Users\bruzz\Desktop\SpazioLavoro\Angular\calendario-signals\calendarioNG\public\img\timeline-circolare-sole.png
 ---
 
 Questi schizzi non rappresentano lo stile finale del componente, ma svolgono un ruolo fondamentale:  
