@@ -17,8 +17,6 @@ export class TimelineCircolare {
 //! PROPRIETA'
   modalita: 'giorno' | 'notte' = 'giorno';
 
-  taccheGiorno = this.generaTacche(7, 12, 'giorno');
-  taccheNotte  = this.generaTacche(19, 12, 'notte');
   rangeGiorno = { start: 7 * 60, end: 19 * 60 };
   rangeNotte  = { start: 19 * 60, end: 7 * 60 };
 
@@ -54,7 +52,7 @@ export class TimelineCircolare {
 
 // ! LOGICA GEOMETRICA SVG
   // Converte un angolo in coordinate cartesiane sul cerchio
-  private polarToCartesian(cx: number, cy: number, r: number, angle: number) 
+  polarToCartesian(cx: number, cy: number, r: number, angle: number) 
   {
     const rad = (angle - 90) * Math.PI / 180; // -90° per far partire il cerchio dall'alto
     return {
@@ -62,11 +60,12 @@ export class TimelineCircolare {
       y: cy + r * Math.sin(rad)
     };
   }
+
   // Disegna un arco SVG tra due angoli
   private disegnaArco(cx: number, cy: number, r: number, startAngle: number, endAngle: number): string
   {
-    const start = this.polarToCartesian(cx, cy, r, endAngle);
-    const end   = this.polarToCartesian(cx, cy, r, startAngle);
+    const start = this.polarToCartesian(cx, cy, r, this.normalizza(endAngle));
+    const end   = this.polarToCartesian(cx, cy, r, this.normalizza(startAngle));
     // Determina se l'arco è maggiore di 180°
     const largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
     return [
@@ -75,12 +74,25 @@ export class TimelineCircolare {
     ].join(" ");
   }
 
-//! METODI
-  getColore(a: TimelineEvent) 
+  private getOffset(): number 
   {
-    return this.colori[a.tipo] ?? '#888';
+    const start = this.modalita === 'giorno'
+      ? this.rangeGiorno.start
+      : this.rangeNotte.start;
+
+    return -this.angoloAssoluto(start);
   }
 
+ private normalizza(angle: number): number 
+  {
+    return (angle % 360 + 360) % 360;
+  }
+
+
+//! METODI
+getColore(a: TimelineEvent) {
+  return this.colori[a.tipo] ?? '#888';
+}
   generaTacca(angolo: number): string 
   {
     const rInterno = 85;
@@ -94,43 +106,34 @@ export class TimelineCircolare {
     return `M ${x1} ${y1} L ${x2} ${y2}`;
   }
 
-  private generaTacche(startHour: number, count: number, ciclo: 'giorno' | 'notte') 
-  {
-    const coloriGiorno = ['#FFC107', '#FF9800'];
-    const coloriNotte  = ['#3F51B5', '#2196F3']; 
-    const colori = ciclo === 'giorno' ? coloriGiorno : coloriNotte;
+ generaTacche() {
     const tacche = [];
+    const count = 12;
+    const step = 360 / count;
+
+    const startHour = this.modalita === 'giorno'
+      ? Math.floor(this.rangeGiorno.start / 60)
+      : Math.floor(this.rangeNotte.start / 60);
+
+    const offset = this.getOffset();
 
     for (let i = 0; i < count; i++) {
-      // Calcolo dell’ora, con gestione della mezzanotte
       const ora = (startHour + i) % 24;
-      // Alternanza colori
-      const colore = colori[i % 2];
-      // Conversione in angolo
-      const minuti = ora * 60;
-      const angolo = this.angoloAssoluto(minuti);
+      const angolo = this.normalizza(i * step + offset);
+
       tacche.push({
         angolo,
         ora,
-        colore
+        colore: this.modalita === 'giorno'
+          ? (i % 2 === 0 ? '#FFC107' : '#FF9800')
+          : (i % 2 === 0 ? '#3F51B5' : '#2196F3')
       });
     }
+
     return tacche;
   }
 
 //! METODI PIPELINE
-
-  // Calcola l'angolo di inizio e di fine dell'attività
-  private angoliDaTempo(t: Tempo) 
-  {
-    const startMin = this.minutiDelGiorno(t.start);
-    const endMin   = this.minutiDelGiorno(t.end);
-
-    let startAngle = this.angoloAssoluto(startMin);
-    let endAngle   = this.angoloAssoluto(endMin);
-
-    return this.normalizzaArco(startAngle, endAngle);
-  }
 
   // Calcola i minuti totali dall'inizio del giorno
   private minutiDelGiorno(dateString: string): number 
@@ -148,26 +151,41 @@ export class TimelineCircolare {
     return (minutes / 1440) * 360; 
   }
 
-  private normalizzaArco(startAngle: number, endAngle: number) 
+  // Calcola l'angolo di inizio e di fine dell'attività
+  private angoliDaTempo(t: Tempo) 
   {
-    // Se l'angolo di fine è minore di quello di inizio,
-    // significa che l'attività attraversa la mezzanotte.
-    if (endAngle < startAngle) {
-      endAngle += 360;
-    }
-    return { startAngle, endAngle };
+    const startMin = this.minutiDelGiorno(t.start);
+    const endMin   = this.minutiDelGiorno(t.end);
+
+    let startAngle = this.angoloAssoluto(startMin);
+    let endAngle   = this.angoloAssoluto(endMin);
+
+    if (endAngle < startAngle) endAngle += 360;
+
+    const offset = this.getOffset();
+
+    return {
+      startAngle: startAngle + offset,
+      endAngle: endAngle + offset
+    };
   }
 
   // Calcola la parte dell'attività che cade dentro il range della modalità
   private ottieniRangeModalita() 
   {
     const r = this.modalita === 'giorno' ? this.rangeGiorno : this.rangeNotte;
+
     let start = this.angoloAssoluto(r.start);
     let end   = this.angoloAssoluto(r.end);
 
     if (end < start) end += 360;
 
-    return { start, end };
+    const offset = this.getOffset();
+
+    return {
+      start: start + offset,
+      end: end + offset
+    };
   }
 
   private calcolaIntersezione(start: number, end: number, rangeStart: number, rangeEnd: number) 

@@ -1,41 +1,58 @@
 <div class="timeline-container">
 
-  <!-- Pulsante per cambiare modalità -->
-  <button (click)="modalita = modalita === 'giorno' ? 'notte' : 'giorno'">
-    Passa a {{ modalita === 'giorno' ? 'notte' : 'giorno' }}
-  </button>
+  <div class="controls">
+    <button (click)="modalita = 'giorno'">Giorno</button>
+    <button (click)="modalita = 'notte'">Notte</button>
+  </div>
 
-  <!-- SVG principale -->
-  <svg width="200" height="200" viewBox="0 0 200 200">
+  <svg width="240" height="240" viewBox="0 0 200 200">
 
-    <!-- Cerchio di sfondo -->
-    <circle cx="100" cy="100" r="90" fill="#111" stroke="#333" stroke-width="2" />
+    <!-- Cerchio base -->
+    <circle 
+      cx="100" cy="100" r="90"
+      stroke="#333"
+      stroke-width="1.5"
+      fill="none"
+    />
 
-    <!-- Tacche delle ore -->
-    <g stroke="white" stroke-width="2">
+    <!-- TACCHETTE + LABEL -->
+    <g>
+      @for (t of generaTacche(); track t.angolo) {
 
-      @if (modalita === 'giorno') {
-        @for (t of taccheGiorno; track t.ora) {
-          <path [attr.d]="generaTacca(t.angolo)" [attr.stroke]="t.colore" />
-        }
-      } @else {
-        @for (t of taccheNotte; track t.ora) {
-          <path [attr.d]="generaTacca(t.angolo)" [attr.stroke]="t.colore" />
-        }
+        <!-- Tacca -->
+        <path 
+          [attr.d]="generaTacca(t.angolo)"
+          [attr.stroke]="t.colore"
+          stroke-width="2"
+        />
+
+        <!-- Label ora -->
+        <text 
+          [attr.x]="polarToCartesian(100, 100, 72, t.angolo).x"
+          [attr.y]="polarToCartesian(100, 100, 72, t.angolo).y"
+          text-anchor="middle"
+          alignment-baseline="middle"
+          class="hour-label"
+        >
+          {{ t.ora }}
+        </text>
       }
-
     </g>
 
-    <!-- Archi delle attività -->
-    <g stroke-width="8" fill="none">
-
-      @for (a of eventi; track a.start) {
-        <path
-          [attr.d]="calcolaArcoAttivita(a)"
-          [attr.stroke]="getColore(a)"
-        />
+    <!-- ARCHI DELLE ATTIVITÀ -->
+    <g>
+      @for (ev of eventi; track ev) {
+        @if (calcolaArcoAttivita(ev) !== '') {
+          <path 
+            [attr.d]="calcolaArcoAttivita(ev)"
+            [attr.stroke]="getColore(ev)"
+            stroke-width="7"
+            fill="none"
+            stroke-linecap="round"
+            class="activity-arc"
+          />
+        }
       }
-
     </g>
 
   </svg>
