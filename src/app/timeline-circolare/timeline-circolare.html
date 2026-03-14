@@ -2,8 +2,8 @@
 
   <!-- Controlli -->
   <div class="controls">
-    <button (click)="visibleCycle = 'day'">Luce</button>
-    <button (click)="visibleCycle = 'night'">Buio</button>
+    <button (click)="visibleCycle = 'day'" [class.active]="visibleCycle === 'day'">Luce</button>
+    <button (click)="visibleCycle = 'night'" [class.active]="visibleCycle === 'night'">Buio</button>
   </div>
 
   <svg width="240" height="240" viewBox="0 0 200 200">
@@ -11,10 +11,25 @@
     <!-- CERCHIO PRINCIPALE -->
     <circle 
       cx="100" cy="100" r="90"
-      [attr.stroke]="visibleCycle === 'day' ? '#FFC107' : '#3F51B5'"
+      [attr.stroke]="visibleCycle === 'day' ? '#f9cb30' : '#3F51B5'"
+      [attr.fill]="visibleCycle === 'day' ? '#88cbe0' : '#11061c'"
       stroke-width="1.5"
       fill="none"
     />
+    
+    <!-- ICONA CENTRALE (SOLE / LUNA) -->
+    <g>
+      @if (visibleCycle === 'day')
+      {
+        <!-- Sole -->
+        <image xlink:href="img/sole.png" x="75" y="75" width="50" height="50" />
+      }
+      @else
+      {
+        <!-- Sole -->
+        <image xlink:href="img/luna.png" x="81" y="81" width="38" height="38" /> 
+      }
+    </g>
 
 
     <!-- TACCHETTE LUCE -->
@@ -32,7 +47,7 @@
           [attr.y]="polarToCartesian(100, 100, 72, t.angle).y"
           text-anchor="middle"
           alignment-baseline="middle"
-          class="hour-label"
+          class="hour-label day"
         >
           {{ t.hour }}
         </text>
@@ -54,7 +69,7 @@
           [attr.y]="polarToCartesian(100, 100, 72, t.angle).y"
           text-anchor="middle"
           alignment-baseline="middle"
-          class="hour-label"
+          class="hour-label night"
         >
           {{ t.hour }}
         </text>
@@ -75,27 +90,7 @@
         }
       }
     </g>
-
-    <!-- ICONA CENTRALE (SOLE / LUNA) -->
-    <g>
-      @if (visibleCycle === 'day') {
-        <!-- Sole minimal -->
-        <circle cx="100" cy="100" r="12" fill="#FFC107" />
-        <circle cx="100" cy="100" r="6" fill="#FFF8E1" />
-      }
-      @else {
-        <!-- Luna minimal -->
-        <path 
-          d="M100 88
-             A12 12 0 1 0 100 112
-             A8 8 0 1 1 100 88"
-          fill="#3F51B5"
-        />
-      }
-    </g>
-
   </svg>
-
 </div>
 
 <pre>{{ archiLogici | json }}</pre>
