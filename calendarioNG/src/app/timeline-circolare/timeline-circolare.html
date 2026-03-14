@@ -1,60 +1,102 @@
 <div class="timeline-container">
 
+  <!-- Controlli -->
   <div class="controls">
-    <button (click)="modalita = 'giorno'">Giorno</button>
-    <button (click)="modalita = 'notte'">Notte</button>
+    <button (click)="visibleCycle = 'day'">Luce</button>
+    <button (click)="visibleCycle = 'night'">Buio</button>
   </div>
 
   <svg width="240" height="240" viewBox="0 0 200 200">
 
-    <!-- Cerchio base -->
+    <!-- CERCHIO PRINCIPALE -->
     <circle 
       cx="100" cy="100" r="90"
-      stroke="#333"
+      [attr.stroke]="visibleCycle === 'day' ? '#FFC107' : '#3F51B5'"
       stroke-width="1.5"
       fill="none"
     />
 
-    <!-- TACCHETTE + LABEL -->
-    <g>
-      @for (t of generaTacche(); track t.angolo) {
 
-        <!-- Tacca -->
+    <!-- TACCHETTE LUCE -->
+    <g *ngIf="visibleCycle === 'day'">
+      @for (t of getDayTicks(); track t.angle) {
+
         <path 
-          [attr.d]="generaTacca(t.angolo)"
-          [attr.stroke]="t.colore"
+          [attr.d]="buildTickPath(t.angle)"
+          stroke="#FFC107"
           stroke-width="2"
         />
 
-        <!-- Label ora -->
         <text 
-          [attr.x]="polarToCartesian(100, 100, 72, t.angolo).x"
-          [attr.y]="polarToCartesian(100, 100, 72, t.angolo).y"
+          [attr.x]="polarToCartesian(100, 100, 72, t.angle).x"
+          [attr.y]="polarToCartesian(100, 100, 72, t.angle).y"
           text-anchor="middle"
           alignment-baseline="middle"
           class="hour-label"
         >
-          {{ t.ora }}
+          {{ t.hour }}
         </text>
       }
     </g>
 
-    <!-- ARCHI DELLE ATTIVITÀ -->
+    <!-- TACCHETTE BUIO -->
+    <g *ngIf="visibleCycle === 'night'">
+      @for (t of getNightTicks(); track t.angle) {
+
+        <path 
+          [attr.d]="buildTickPath(t.angle)"
+          stroke="#3F51B5"
+          stroke-width="2"
+        />
+
+        <text 
+          [attr.x]="polarToCartesian(100, 100, 72, t.angle).x"
+          [attr.y]="polarToCartesian(100, 100, 72, t.angle).y"
+          text-anchor="middle"
+          alignment-baseline="middle"
+          class="hour-label"
+        >
+          {{ t.hour }}
+        </text>
+      }
+    </g>
+
+    <!-- ARCHI DELLE ATTIVITÀ (solo del ciclo selezionato) -->
     <g>
-      @for (ev of eventi; track ev) {
-        @if (calcolaArcoAttivita(ev) !== '') {
+      @for (arc of archiLogici; track arc.startAngle) {
+        @if (arc.cycle === visibleCycle) {
           <path 
-            [attr.d]="calcolaArcoAttivita(ev)"
-            [attr.stroke]="getColore(ev)"
+            [attr.d]="disegnaArcoPortion(arc)"
+            [attr.stroke]="getColorForEvent(arc.originalEvent)"
             stroke-width="7"
             fill="none"
             stroke-linecap="round"
-            class="activity-arc"
           />
         }
+      }
+    </g>
+
+    <!-- ICONA CENTRALE (SOLE / LUNA) -->
+    <g>
+      @if (visibleCycle === 'day') {
+        <!-- Sole minimal -->
+        <circle cx="100" cy="100" r="12" fill="#FFC107" />
+        <circle cx="100" cy="100" r="6" fill="#FFF8E1" />
+      }
+      @else {
+        <!-- Luna minimal -->
+        <path 
+          d="M100 88
+             A12 12 0 1 0 100 112
+             A8 8 0 1 1 100 88"
+          fill="#3F51B5"
+        />
       }
     </g>
 
   </svg>
 
 </div>
+
+<pre>{{ archiLogici | json }}</pre>
+
