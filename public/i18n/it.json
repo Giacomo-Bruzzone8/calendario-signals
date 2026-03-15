@@ -1,0 +1,26 @@
+{
+  "AppComponent": {
+    "HeaderTitle": "Il tuo Diario Personale",
+    "HeaderSubtitle": "Organizza le tue giornate, annota pensieri, obiettivi e traguardi."
+  },
+  "NavbarComponent": {
+    "AppName": "MyDiary",
+    "Home": "Home",
+    "Calendar": "Calendario",
+    "Goals": "Obiettivi",
+    "Profile": "Profilo"
+  },
+  "CalendarComponent": {
+    "Legend": {
+      "PreviousMonth": "Giorni del mese precedente",
+      "CurrentMonth": "Giorni del mese corrente",
+      "NextMonth": "Giorni del mese successivo",
+      "Today": "Oggi",
+      "SelectedDay": "Giorno selezionato"
+    }
+  },
+  "CircularTimelineComponent": {
+    "Day": "Luce",
+    "Night": "Buio"
+  }
+}

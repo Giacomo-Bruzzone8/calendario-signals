@@ -1,10 +1,11 @@
-export interface CalendarDay {
-  anno: number;
-  mese: number;
-  numero_del_giorno_del_calendario: number;
-  meseCorrente?: boolean;
-  mesePrecedente?: boolean;
-  meseSuccessivo?: boolean;
-  giornoAttuale: boolean;
- // id?: string;
+export interface CalendarDay
+{
+  date: number;
+  month: number;
+  year: number;
+
+  currentMonth?: boolean;
+  previousMonth?: boolean;
+  nextMonth?: boolean;
+  isToday: boolean;
 }

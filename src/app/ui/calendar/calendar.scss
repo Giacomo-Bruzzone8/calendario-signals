@@ -1,0 +1,103 @@
+.calendar-container {
+  width: 90%;
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 25px;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  font-family: Arial, sans-serif;
+  color: black;
+}
+
+.calendar-header
+{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+
+  .header-title
+  {
+    font-size: 1.4rem;
+    margin: 0;
+  }
+
+  .nav-btn
+  {
+    background: none;
+    border: none;
+    font-size: 1.6rem;
+    cursor: pointer;
+  }
+}
+
+.days-of-week {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+// CALENDAR GRID
+.grid-calendar
+{
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+
+  .calendar-cell
+  {
+    padding: 10px;
+    text-align: center;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 3px solid transparent;
+
+    &.previous-month { color: #aaaaaa;  }
+    &.next-month { color: #5cb85c;  }
+
+    &.today
+    {
+      background-color: #007bff;
+      color: white;
+      font-weight: bold;
+    }
+
+    &.selected { border: 3px solid red; }
+  }
+}
+
+// LEGEND
+.calendar-legend
+{
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+  font-size: 0.9rem;
+
+  .legend-item
+  {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    .legend-color
+    {
+      width: 14px;
+      height: 14px;
+      border-radius: 3px;
+      display: inline-block;
+      border: 1px solid transparent;
+      
+      &.previous-month { background-color: #aaaaaa; }
+      &.current-month { background-color: black; }
+      &.next-month { background-color: #5cb85c; }
+      &.today { background-color: #0275d8;}
+      &.selected { border: 3px solid red; }
+    }
+  }
+}

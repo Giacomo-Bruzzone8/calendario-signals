@@ -1,59 +1,58 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { Tempo, TimelineEvent } from '../models/calendar-event.model';
-import { Cycle, CycleConfig } from '../models/cycle.model';
-
-type CycleType = 'day' | 'night';
+import { TimelineEvent } from '../../models/calendar-event.model';
+import { CycleType } from '../../models/cycle.model';
+import { TranslateModule } from '@ngx-translate/core';
+import dayjs, { Dayjs } from 'dayjs';
 
 interface EventPortion {
   cycle: CycleType; // cycle type (day/night)
-  start: Date; // start time of this portion
-  end: Date; // end time of this portion
-  type: TimelineEvent['tipo']; // event type (Lavoro, Sport, Sonno...)
+  start: Dayjs; // start time of this portion
+  end: Dayjs; // end time of this portion
+  type: TimelineEvent['type']; // event type (Work, Sport, Sleep...)
   originalEvent: TimelineEvent; // full original event
 }
 
 @Component({
-  selector: 'app-timeline-circolare',
+  selector: 'app-circular-timeline',
   standalone: true,
-  imports: [CommonModule],
-  templateUrl: './timeline-circolare.html',
-  styleUrls: ['./timeline-circolare.css'],
+  imports: [CommonModule, TranslateModule],
+  templateUrl: './circular-timeline.html',
+  styleUrls: ['./circular-timeline.scss'],
 })
-export class TimelineCircolare {
+export class CircularTimeline {
   //! DECLARATIONS
 
   visibleCycle: CycleType = 'day';
   activityArcs: ReturnType<typeof this.portionToAngles>[] = [];
 
-  private colorsByType: Record<TimelineEvent['tipo'], string> = {
-    Sonno: 'magenta',
-    Lavoro: 'red',
-    Studio: '#2196F3',
-    Lettura: '#3F51B5',
+  private colorsByType: Record<TimelineEvent['type'], string> = {
+    Sleep: 'magenta',
+    Work: 'red',
+    Study: '#2196F3',
+    Reading: '#3F51B5',
     Sport: 'cyan',
-    TempoLibero: '#009688',
-    AttivitaCustom: '#795548',
+    FreeTime: '#009688',
+    CustomActivity: '#795548',
   };
 
   events: TimelineEvent[] = [
     {
-      tipo: 'Lavoro',
+      type: 'Work',
       start: '2026-03-13T09:00',
       end: '2026-03-13T13:00',
     },
     {
-      tipo: 'Sport',
+      type: 'Sport',
       start: '2026-03-13T18:00',
       end: '2026-03-13T21:00',
       sport: 'Corsa',
     },
     {
-      tipo: 'Sonno',
+      type: 'Sleep',
       start: '2026-03-13T23:30',
       end: '2026-03-14T07:00',
-      sogni: 'Sogno lucido',
+      dream: 'Sogno lucido',
     },
   ];
 
@@ -95,7 +94,7 @@ export class TimelineCircolare {
   // Returns the color associated with an event type
   getColorForEvent(event: TimelineEvent)
   {
-    return this.colorsByType[event.tipo] ?? '#888';
+    return this.colorsByType[event.type] ?? '#888';
   }
 
   // Generates the SVG path for a single tick mark
@@ -145,30 +144,29 @@ export class TimelineCircolare {
     return this.visibleCycle === 'day' ? 8 : 20;
   }
 
-  private toAbsoluteMinutes(date: Date): number
+  private toAbsoluteMinutes(date: Dayjs): number
   {
-    return date.getHours() * 60 + date.getMinutes();
+    return date.hour() * 60 + date.minute();
   }
 
-  private getMinutesRelativeToCycle(date: Date): number
+  private getMinutesRelativeToCycle(date: Dayjs): number
   {
-    const abs = this.toAbsoluteMinutes(date); // minuti assoluti 0–1439
-    const start = this.cycleStartHour() * 60; // 480 per luce, 1200 per buio
+    const abs = this.toAbsoluteMinutes(date); // absolute minutes from 00:00 (0–1439)
+    const start = this.cycleStartHour() * 60; // 480 for day, 1200 for night
 
     let rel = abs - start;
 
-    // Se siamo nel ciclo buio e l'orario è dopo mezzanotte (es. 02:00)
-    // dobbiamo aggiungere 1440 minuti
-    if (rel < 0) {
-      rel += 1440;
-    }
-    return rel; // sempre 0–720
+    // If we're in the night cycle and the time is after midnight (e.g. 02:00)
+    // we need to add 1440 minutes
+    if (rel < 0) { rel += 1440; }
+
+    return rel; // always 0–720
   }
 
-  private timeToAngle(date: Date): number
+  private timeToAngle(date: Dayjs): number
   {
     const rel = this.getMinutesRelativeToCycle(date); // 0–720
-    return rel * 0.5; // 1 minuto = 0.5°
+    return rel * 0.5; // 1 minute = 0.5°
   }
 
   private portionToAngles(p: EventPortion)
@@ -188,92 +186,92 @@ export class TimelineCircolare {
     return 98;
   }
 
-  disegnaArcoPortion(p: ReturnType<typeof this.portionToAngles>): string
+  drawPortionArc(p: ReturnType<typeof this.portionToAngles>): string
   {
     const r = this.raggioPerCiclo();
     return this.drawArcPath(100, 100, r, p.startAngle, p.endAngle);
   }
 
-  private getCycleForTime(date: Date): CycleType {
-    const hour = date.getHours();
-    const minute = date.getMinutes();
+  private getCycleForTime(date: Dayjs): CycleType {
+    const hour = date.hour();
+    const minute = date.minute();
 
-    // Convertiamo l'orario in "minuti assoluti"
+    // Convert time to "absolute minutes"
     const total = hour * 60 + minute;
 
-    // Ciclo luce: 08:00 → 19:59
+    // day cycle: 08:00 → 19:59
     const startLuce = 8 * 60;
-    const endLuce = 20 * 60; // 20:00 escluso
+    const endLuce = 20 * 60; // 20:00 escluded
 
-    // Se total è tra 08:00 e 19:59 → luce
+    // If total is between 08:00 and 19:59 → day
     if (total >= startLuce && total < endLuce) {
       return 'day';
     }
 
-    // Altrimenti → buio
+    // Otherwise → night
     return 'night';
   }
 
-  // Riconosco se si tratta di ciclo notturno o diurno
+  // Recognize if it's night or day cycle
   private splitEventIntoPortions(event: TimelineEvent): EventPortion[]
   {
-    const start = new Date(event.start);
-    const end = new Date(event.end);
+    const start = dayjs(event.start);
+    const end = dayjs(event.end);
 
-    // Convertiamo in minuti assoluti
-    let startMin = start.getHours() * 60 + start.getMinutes();
-    let endMin = end.getHours() * 60 + end.getMinutes();
+    // Convert to absolute minutes
+    let startMin = start.hour() * 60 + start.minute();
+    let endMin = end.hour() * 60 + end.minute();
 
-    // Se l'evento passa al giorno successivo
-    if (endMin < startMin) {
-      endMin += 1440;
-    }
+    // If the event goes to the next day
+    if (endMin < startMin) { endMin += 1440; }
 
     const LUCE_START = 8 * 60; // 08:00
     const BUIO_START = 20 * 60; // 20:00
 
     const portions: EventPortion[] = [];
 
-    // Helper per creare una porzione con Date corrette
+    // Helper to create a portion with correct date objects
     const makePortion = (cycle: CycleType, sMin: number, eMin: number) => {
-      const s = new Date(start);
-      const e = new Date(start);
+      const s = dayjs(start)
+        .hour(Math.floor(sMin / 60) % 24)
+        .minute(sMin % 60);
 
-      s.setHours(Math.floor(sMin / 60) % 24, sMin % 60, 0, 0);
-      e.setHours(Math.floor(eMin / 60) % 24, eMin % 60, 0, 0);
+      let e = dayjs(start)
+        .hour(Math.floor(eMin / 60) % 24)
+        .minute(eMin % 60);
 
-      // Se eMin supera 1440, aggiungiamo un giorno
-      if (eMin >= 1440) e.setDate(e.getDate() + 1);
+      // If eMin exceeds 1440, we add a day
+      if (eMin >= 1440) { e = e.add(1, 'day'); }
 
       portions.push({
         cycle,
         start: s,
         end: e,
-        type: event.tipo,
+        type: event.type,
         originalEvent: event,
       });
     };
 
-    // Caso 1 — tutto in luce
+    // First case — all in day
     if (startMin >= LUCE_START && endMin <= BUIO_START) {
       makePortion('day', startMin, endMin);
       return portions;
     }
 
-    // Caso 2 — tutto in buio
+    // Second case — all in night
     if (startMin >= BUIO_START || endMin <= LUCE_START) {
       makePortion('night', startMin, endMin);
       return portions;
     }
 
-    // Caso 3 — attraversa luce → buio
+    // Third case — crosses day → night
     if (startMin < BUIO_START && endMin > BUIO_START) {
       makePortion('day', startMin, BUIO_START);
       makePortion('night', BUIO_START, endMin);
       return portions;
     }
 
-    // Caso 4 — attraversa buio → luce
+    // forth case — crosses night → day
     if (startMin < LUCE_START && endMin > LUCE_START) {
       makePortion('night', startMin, LUCE_START);
       makePortion('day', LUCE_START, endMin);

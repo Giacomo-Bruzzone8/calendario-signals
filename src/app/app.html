@@ -5,8 +5,8 @@
 
   <!-- HEADER -->
   <header class="header">
-    <h1>Il tuo Diario Personale</h1>
-    <p>Organizza le tue giornate, annota pensieri, obiettivi e traguardi.</p>
+    <h1>{{ 'AppComponent.HeaderTitle' | translate }}</h1>
+    <p>{{ 'AppComponent.HeaderSubtitle' | translate }}</p>
   </header>
 
   <!-- GENGAR -->
@@ -18,14 +18,12 @@
   <!-- MAIN CONTENT -->
   <main class="content">
     <div class="calendar-wrapper">
-      <app-calendar/>
+      <app-calendar />
     </div>
   </main>
 
-
    <!-- TIMELINE -->
   <div class="timeline-container">
-    <app-timeline-circolare />
+    <app-circular-timeline />
   </div>
-
 </div>

@@ -1,9 +1,8 @@
 <div class="timeline-container">
-
-  <!-- Controls -->
+  <!-- CONTROLS -->
   <div class="control-buttons">
-    <button (click)="visibleCycle = 'day'" [class.active]="visibleCycle === 'day'">Luce</button>
-    <button (click)="visibleCycle = 'night'" [class.active]="visibleCycle === 'night'">Buio</button>
+    <button (click)="visibleCycle = 'day'" [class.active]="visibleCycle === 'day'">{{ 'CircularTimelineComponent.Day' | translate }}</button>
+    <button (click)="visibleCycle = 'night'" [class.active]="visibleCycle === 'night'">{{ 'CircularTimelineComponent.Night' | translate }}</button>
   </div>
 
   <svg [class.day]="visibleCycle === 'day'" [class.night]="visibleCycle === 'night'"
@@ -18,17 +17,17 @@
       fill="none"
     />
     
-    <!-- ICONA CENTRALE (SOLE / LUNA) -->
+    <!-- CENTRAL ICON (SUN / MOON) -->
     <g class="center-icon">
       @if (visibleCycle === 'day')
       {
-        <!-- Sole -->
-        <image href="img/sole.png" x="75" y="75" width="50" height="50" />
+        <!-- SUN -->
+        <image href="img/sun.png" x="75" y="75" width="50" height="50" />
       }
       @else
       {
-        <!-- Luna -->
-        <image href="img/luna.png" x="81" y="81" width="38" height="38" /> 
+        <!-- MOON -->
+        <image href="img/moon.png" x="81" y="81" width="38" height="38" /> 
       }
     </g>
 
@@ -62,7 +61,7 @@
         {
           <path
             class="arc"
-            [attr.d]="disegnaArcoPortion(arc)"
+            [attr.d]="drawPortionArc(arc)"
             [attr.stroke]="getColorForEvent(arc.originalEvent)"
             stroke-width="7"
             fill="none"
