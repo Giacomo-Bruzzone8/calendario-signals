@@ -7,14 +7,12 @@ import { Cycle, CycleConfig } from '../models/cycle.model';
 type CycleType = 'day' | 'night';
 
 interface EventPortion {
-  cycle: CycleType;                // 'day' | 'night'
-  start: Date;                     // start time of this portion
-  end: Date;                       // end time of this portion
-  type: TimelineEvent['tipo'];     // event type (Lavoro, Sport, Sonno...)
-  originalEvent: TimelineEvent;    // full original event
+  cycle: CycleType; // cycle type (day/night)
+  start: Date; // start time of this portion
+  end: Date; // end time of this portion
+  type: TimelineEvent['tipo']; // event type (Lavoro, Sport, Sonno...)
+  originalEvent: TimelineEvent; // full original event
 }
-
-
 
 @Component({
   selector: 'app-timeline-circolare',
@@ -22,13 +20,12 @@ interface EventPortion {
   imports: [CommonModule],
   templateUrl: './timeline-circolare.html',
   styleUrls: ['./timeline-circolare.css'],
-
 })
 export class TimelineCircolare {
-
-//! DECLARATIONS
+  //! DECLARATIONS
 
   visibleCycle: CycleType = 'day';
+  activityArcs: ReturnType<typeof this.portionToAngles>[] = [];
 
   private colorsByType: Record<TimelineEvent['tipo'], string> = {
     Sonno: 'magenta',
@@ -37,7 +34,7 @@ export class TimelineCircolare {
     Lettura: '#3F51B5',
     Sport: 'cyan',
     TempoLibero: '#009688',
-    AttivitaCustom: '#795548'
+    AttivitaCustom: '#795548',
   };
 
   events: TimelineEvent[] = [
@@ -50,31 +47,35 @@ export class TimelineCircolare {
       tipo: 'Sport',
       start: '2026-03-13T18:00',
       end: '2026-03-13T21:00',
-      sport: 'Corsa'
+      sport: 'Corsa',
     },
     {
       tipo: 'Sonno',
       start: '2026-03-13T23:30',
       end: '2026-03-14T07:00',
-      sogni: 'Sogno lucido'
-    }
+      sogni: 'Sogno lucido',
+    },
   ];
 
-// ! SVG GEOMETRY LOGIC
+  // ! SVG GEOMETRY LOGIC
 
   // Converts an angle into cartesian coordinates on the circle
-  polarToCartesian(cx: number, cy: number, r: number, angle: number) 
-  {
-    const rad = (angle - 90) * Math.PI / 180; // -90° to start from top
+  polarToCartesian(cx: number, cy: number, r: number, angle: number) {
+    const rad = ((angle - 90) * Math.PI) / 180; // -90° to start from top
     return {
       x: cx + r * Math.cos(rad),
-      y: cy + r * Math.sin(rad)
+      y: cy + r * Math.sin(rad),
     };
   }
 
   // Generates an SVG arc path between two angles
-  private drawArcPath(cx: number, cy: number, r: number, startAngle: number, endAngle: number): string 
-  {
+  private drawArcPath(
+    cx: number,
+    cy: number,
+    r: number,
+    startAngle: number,
+    endAngle: number,
+  ): string {
     const start = this.polarToCartesian(cx, cy, r, startAngle);
     const end = this.polarToCartesian(cx, cy, r, endAngle);
 
@@ -84,26 +85,25 @@ export class TimelineCircolare {
     return `M ${start.x} ${start.y} A ${r} ${r} 0 ${largeArcFlag} 1 ${end.x} ${end.y}`;
   }
 
-
-  private normalizeAngle(angle: number): number 
+  private normalizeAngle(angle: number): number
   {
-    return (angle % 360 + 360) % 360;
+    return ((angle % 360) + 360) % 360;
   }
 
-//! TICKS AND COLORS
+  //! TICKS AND COLORS
 
   // Returns the color associated with an event type
-  getColorForEvent(event: TimelineEvent) 
+  getColorForEvent(event: TimelineEvent)
   {
     return this.colorsByType[event.tipo] ?? '#888';
   }
 
   // Generates the SVG path for a single tick mark
-  buildTickPath(angle: number): string 
+  buildTickPath(angle: number): string
   {
     const innerRadius = 85;
     const outerRadius = 90;
-    const rad = (angle - 90) * Math.PI / 180;
+    const rad = ((angle - 90) * Math.PI) / 180;
 
     const x1 = 100 + innerRadius * Math.cos(rad);
     const y1 = 100 + innerRadius * Math.sin(rad);
@@ -114,66 +114,46 @@ export class TimelineCircolare {
   }
 
   // Generates the tick marks for the day cycle
-  getDayTicks() 
+  getTicks()
   {
     const ticks = [];
+    const startHour = this.cycleStartHour();
     const count = 12;
     const step = 360 / count;
 
     for (let i = 0; i < count; i++) {
       const angle = this.normalizeAngle(i * step);
-      const hour = 8 + i;
+      const hour = startHour + i;
 
       ticks.push({
         angle,
         hour: hour % 24,
-        color: '#FFC107'
       });
     }
+
     return ticks;
   }
 
-  // Generates the tick marks for the night cycle
-  getNightTicks() 
+  //! METODI PIPELINE
+  ngOnInit()
   {
-    const ticks = [];
-    const count = 12;
-    const step = 360 / count;
-
-    for (let i = 0; i < count; i++) {
-      const angle = this.normalizeAngle(i * step);
-      const hour = 20 + i;
-
-      ticks.push({
-        angle,
-        hour: hour % 24,
-        color: '#3F51B5'
-      });
-    }
-    return ticks;
+    this.activityArcs = this.portions.map((p) => this.portionToAngles(p));
   }
 
-
-//! METODI PIPELINE
-  ngOnInit() 
+  private cycleStartHour(): number
   {
-    this.archiLogici = this.porzioni.map(p => this.portionToAngles(p));
+    return this.visibleCycle === 'day' ? 8 : 20;
   }
 
-  private cycleStartHour(cycle: CycleType): number 
-  {
-    return cycle === 'day' ? 8 : 20;
-  }
-
-  private toAbsoluteMinutes(date: Date): number 
+  private toAbsoluteMinutes(date: Date): number
   {
     return date.getHours() * 60 + date.getMinutes();
   }
 
-  private getMinutesRelativeToCycle(date: Date, cycle: CycleType): number 
+  private getMinutesRelativeToCycle(date: Date): number
   {
-    const abs = this.toAbsoluteMinutes(date);        // minuti assoluti 0–1439
-    const start = this.cycleStartHour(cycle) * 60;   // 480 per luce, 1200 per buio
+    const abs = this.toAbsoluteMinutes(date); // minuti assoluti 0–1439
+    const start = this.cycleStartHour() * 60; // 480 per luce, 1200 per buio
 
     let rel = abs - start;
 
@@ -185,40 +165,36 @@ export class TimelineCircolare {
     return rel; // sempre 0–720
   }
 
-  private timeToAngle(date: Date, cycle: CycleType): number 
+  private timeToAngle(date: Date): number
   {
-    const rel = this.getMinutesRelativeToCycle(date, cycle); // 0–720
+    const rel = this.getMinutesRelativeToCycle(date); // 0–720
     return rel * 0.5; // 1 minuto = 0.5°
   }
 
-  private portionToAngles(p: EventPortion) 
+  private portionToAngles(p: EventPortion)
   {
-    const startAngle = this.timeToAngle(p.start, p.cycle);
-    const endAngle   = this.timeToAngle(p.end, p.cycle);
+    const startAngle = this.timeToAngle(p.start);
+    const endAngle = this.timeToAngle(p.end);
 
     return {
       ...p,
       startAngle,
-      endAngle
+      endAngle,
     };
   }
-  private raggioPerCiclo(cycle: CycleType): number 
+
+  private raggioPerCiclo(): number
   {
     return 98;
   }
 
-  disegnaArcoPortion(p: ReturnType<typeof this.portionToAngles>): string 
+  disegnaArcoPortion(p: ReturnType<typeof this.portionToAngles>): string
   {
-    const r = this.raggioPerCiclo(p.cycle);
+    const r = this.raggioPerCiclo();
     return this.drawArcPath(100, 100, r, p.startAngle, p.endAngle);
   }
 
-
- public archiLogici: ReturnType<typeof this.portionToAngles>[] = [];
-
-
-  private getCycleForTime(date: Date): CycleType 
-  {
+  private getCycleForTime(date: Date): CycleType {
     const hour = date.getHours();
     const minute = date.getMinutes();
 
@@ -227,7 +203,7 @@ export class TimelineCircolare {
 
     // Ciclo luce: 08:00 → 19:59
     const startLuce = 8 * 60;
-    const endLuce   = 20 * 60; // 20:00 escluso
+    const endLuce = 20 * 60; // 20:00 escluso
 
     // Se total è tra 08:00 e 19:59 → luce
     if (total >= startLuce && total < endLuce) {
@@ -238,24 +214,23 @@ export class TimelineCircolare {
     return 'night';
   }
 
-
-    // Riconosco se si tratta di ciclo notturno o diurno
-  private splitEventIntoPortions(event: TimelineEvent): EventPortion[] 
+  // Riconosco se si tratta di ciclo notturno o diurno
+  private splitEventIntoPortions(event: TimelineEvent): EventPortion[]
   {
     const start = new Date(event.start);
-    const end   = new Date(event.end);
+    const end = new Date(event.end);
 
     // Convertiamo in minuti assoluti
     let startMin = start.getHours() * 60 + start.getMinutes();
-    let endMin   = end.getHours() * 60 + end.getMinutes();
+    let endMin = end.getHours() * 60 + end.getMinutes();
 
     // Se l'evento passa al giorno successivo
     if (endMin < startMin) {
       endMin += 1440;
     }
 
-    const LUCE_START = 8 * 60;   // 08:00
-    const BUIO_START = 20 * 60;  // 20:00
+    const LUCE_START = 8 * 60; // 08:00
+    const BUIO_START = 20 * 60; // 20:00
 
     const portions: EventPortion[] = [];
 
@@ -275,7 +250,7 @@ export class TimelineCircolare {
         start: s,
         end: e,
         type: event.tipo,
-        originalEvent: event
+        originalEvent: event,
       });
     };
 
@@ -309,10 +284,9 @@ export class TimelineCircolare {
     makePortion(this.getCycleForTime(start), startMin, endMin);
     return portions;
   }
-
-  get porzioni(): EventPortion[] {
-    return this.events.flatMap(e => this.splitEventIntoPortions(e));
+  
+  get portions(): EventPortion[]
+  {
+    return this.events.flatMap((e) => this.splitEventIntoPortions(e));
   }
-    
 }
-

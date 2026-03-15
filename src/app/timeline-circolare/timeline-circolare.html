@@ -1,44 +1,44 @@
 <div class="timeline-container">
 
-  <!-- Controlli -->
-  <div class="controls">
+  <!-- Controls -->
+  <div class="control-buttons">
     <button (click)="visibleCycle = 'day'" [class.active]="visibleCycle === 'day'">Luce</button>
     <button (click)="visibleCycle = 'night'" [class.active]="visibleCycle === 'night'">Buio</button>
   </div>
 
-  <svg width="240" height="240" viewBox="0 0 200 200">
+  <svg [class.day]="visibleCycle === 'day'" [class.night]="visibleCycle === 'night'"
+    width="240"
+    height="240"
+    viewBox="0 0 200 200">
 
-    <!-- CERCHIO PRINCIPALE -->
-    <circle 
+    <!-- MAIN CIRCLE -->
+    <circle class="main-circle"
       cx="100" cy="100" r="90"
-      [attr.stroke]="visibleCycle === 'day' ? '#f9cb30' : '#3F51B5'"
-      [attr.fill]="visibleCycle === 'day' ? '#88cbe0' : '#11061c'"
       stroke-width="1.5"
       fill="none"
     />
     
     <!-- ICONA CENTRALE (SOLE / LUNA) -->
-    <g>
+    <g class="center-icon">
       @if (visibleCycle === 'day')
       {
         <!-- Sole -->
-        <image xlink:href="img/sole.png" x="75" y="75" width="50" height="50" />
+        <image href="img/sole.png" x="75" y="75" width="50" height="50" />
       }
       @else
       {
-        <!-- Sole -->
-        <image xlink:href="img/luna.png" x="81" y="81" width="38" height="38" /> 
+        <!-- Luna -->
+        <image href="img/luna.png" x="81" y="81" width="38" height="38" /> 
       }
     </g>
 
 
-    <!-- TACCHETTE LUCE -->
-    <g *ngIf="visibleCycle === 'day'">
-      @for (t of getDayTicks(); track t.angle) {
-
-        <path 
+    <!-- HOUR TICKS -->
+    <g class="ticks">
+      @for (t of getTicks(); track t.angle)
+      {
+        <path class="tick-path"
           [attr.d]="buildTickPath(t.angle)"
-          stroke="#FFC107"
           stroke-width="2"
         />
 
@@ -47,40 +47,21 @@
           [attr.y]="polarToCartesian(100, 100, 72, t.angle).y"
           text-anchor="middle"
           alignment-baseline="middle"
-          class="hour-label day"
+          class="hour-label"
         >
           {{ t.hour }}
         </text>
       }
     </g>
 
-    <!-- TACCHETTE BUIO -->
-    <g *ngIf="visibleCycle === 'night'">
-      @for (t of getNightTicks(); track t.angle) {
-
-        <path 
-          [attr.d]="buildTickPath(t.angle)"
-          stroke="#3F51B5"
-          stroke-width="2"
-        />
-
-        <text 
-          [attr.x]="polarToCartesian(100, 100, 72, t.angle).x"
-          [attr.y]="polarToCartesian(100, 100, 72, t.angle).y"
-          text-anchor="middle"
-          alignment-baseline="middle"
-          class="hour-label night"
-        >
-          {{ t.hour }}
-        </text>
-      }
-    </g>
-
-    <!-- ARCHI DELLE ATTIVITÀ (solo del ciclo selezionato) -->
-    <g>
-      @for (arc of archiLogici; track arc.startAngle) {
-        @if (arc.cycle === visibleCycle) {
-          <path 
+    <!-- ACTIVITY ARCS FOR THE SELECTED CYCLE -->
+    <g class="activity-arcs">
+      @for (arc of activityArcs; track arc.startAngle)
+      {
+        @if (arc.cycle === visibleCycle)
+        {
+          <path
+            class="arc"
             [attr.d]="disegnaArcoPortion(arc)"
             [attr.stroke]="getColorForEvent(arc.originalEvent)"
             stroke-width="7"
@@ -92,6 +73,3 @@
     </g>
   </svg>
 </div>
-
-<pre>{{ archiLogici | json }}</pre>
-

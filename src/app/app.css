@@ -55,3 +55,7 @@
   width: 400px;
   pointer-events: none;
 }
+
+.timeline-container {
+  margin-top: 20px;
+}
