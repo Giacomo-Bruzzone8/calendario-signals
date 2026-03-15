@@ -1,4 +1,5 @@
-.timeline-container {
+.timeline-container
+{
   width: 240px;
   margin: 0 auto;
   text-align: center;
@@ -6,53 +7,92 @@
   color: white;
 
   display: block;
-}
 
-.controls {
-  margin-bottom: 12px;
-  display: flex;
-  justify-content: center;
-  gap: 8px;
+  .control-buttons
+  {
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
 
-  button {
-    padding: 6px 10px;
-    font-size: 12px;
-    border: none;
-    border-radius: 4px;
-    background: #444;
-    color: white;
-    cursor: pointer;
-    transition: background 0.2s;
+    button
+    {
+      padding: 6px 10px;
+      font-size: 12px;
+      border: none;
+      border-radius: 4px;
+      background: #444;
+      color: white;
+      cursor: pointer;
+      transition: background 0.2s;
 
-    &.active {
-      background-color: #4c2a85;
+      &.active
+      {
+        background-color: #4c2a85;
+      }
+
+      &:hover
+      {
+        background: #666;
+      }
     }
   }
 }
 
-
-
-button:hover {
-  background: #666;
-}
-
-svg {
+svg
+{
   background: #111;
   border-radius: 50%;
-}
 
-.hour-label {
-  font-size: 12px;
-  font-weight: bold;
-
-  &.day {
-    fill: black;
-  }
-  &.night {
-    fill: #ede1b3;
+  .hour-label
+  {
+    font-size: 12px;
+    font-weight: bold;
   }
 }
 
-.activity-arc {
-  filter: drop-shadow(0 0 2px rgba(0,0,0,0.4));
+svg.day
+{
+  .main-circle
+  {
+    stroke: #f9cb30;
+    fill: #88cbe0;
+  }
+
+  .ticks 
+  {
+    .tick-path
+    {
+      stroke: #FFC107;
+    }
+
+    .hour-label
+    {
+      fill: black;
+    }
+  }
 }
+  
+svg.night
+{
+  .main-circle
+  {
+    stroke: #3F51B5;
+    fill: #11061c;
+  }
+
+  .ticks
+  {
+    .tick-path
+    {
+      stroke: #3F51B5;
+    }
+
+    .hour-label
+    {
+      fill: #ede1b3;
+    }
+  }
+}
+
+.activity-arcs .arc {}
