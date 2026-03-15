@@ -1,0 +1,20 @@
+<nav class="navbar">
+  <div class="logo">{{ 'NavbarComponent.AppName' | translate }}</div>
+
+  <div class="right-section">
+    <ul class="nav-links">
+      <li>{{ 'NavbarComponent.Home' | translate }}</li>
+      <li>{{ 'NavbarComponent.Calendar' | translate }}</li>
+      <li>{{ 'NavbarComponent.Goals' | translate }}</li>
+      <li>{{ 'NavbarComponent.Profile' | translate }}</li>
+    </ul>
+
+    <!-- Language switcher -->
+    <select [value]="currentLang" (change)="changeLanguage($event)">
+      @for (lang of availableLangs; track $index)
+      {
+        <option [value]="lang">{{ lang.toUpperCase() }}</option>
+      }
+    </select>
+  </div>
+</nav>

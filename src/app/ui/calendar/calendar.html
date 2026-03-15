@@ -1,0 +1,62 @@
+<div class="calendar-container">
+  <header class="calendar-header">
+    <button class="nav-btn" (click)="previousMonth()">&#10094;</button>  <!--&#10094 → less than symbol (previous month) -->
+
+    <h2 class="header-title">
+      {{ headerDescription() }}
+    </h2>
+
+    <button class="nav-btn" (click)="nextMonth()">&#10095;</button> <!--&#10095 → greater than symbol (next month) -->
+  </header>
+
+  <!-- DAY OF WEEK -->
+  <div class="days-of-week">
+    @for (weekday of daysOfWeek; track weekday)
+    { 
+      <div>
+        {{ weekday }}
+      </div>
+    }
+  </div>
+
+  <!-- CALENDAR GRID -->
+  <div class="grid-calendar">
+    @for (day of calendarDays(); track day.year + '-' + day.month + '-' + day.date)
+    {
+      <div class="calendar-cell"
+           [class.current-month]="day.currentMonth"
+           [class.previous-month]="day.previousMonth"
+           [class.next-month]="day.nextMonth"
+           [class.today]="day.isToday"
+           [class.selected]="isDaySelected(day)"
+           (click)="selectDay(day)">
+        {{ day.date }}
+      </div>
+    }
+  </div>
+
+  <!-- LEGEND -->
+  <div class="calendar-legend">
+    <div class="legend-item">
+      <span class="legend-color previous-month"></span>
+      <span>{{ 'CalendarComponent.Legend.PreviousMonth' | translate }}</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-color current-month"></span>
+      <span>{{ 'CalendarComponent.Legend.CurrentMonth' | translate }}</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-color next-month"></span>
+      <span>{{ 'CalendarComponent.Legend.NextMonth' | translate }}</span>
+    </div>
+    <br>
+    <div class="legend-item">
+      <span class="legend-color today"></span>
+      <span>{{ 'CalendarComponent.Legend.Today' | translate }}</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-color selected"></span>
+      <span>{{ 'CalendarComponent.Legend.SelectedDay' | translate }}</span>
+    </div>
+  </div>
+</div>

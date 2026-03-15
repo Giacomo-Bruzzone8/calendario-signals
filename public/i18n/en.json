@@ -1,0 +1,26 @@
+{
+  "AppComponent": {
+    "HeaderTitle": "Your Personal Diary",
+    "HeaderSubtitle": "Organize your days, note thoughts, goals, and milestones."
+  },
+  "NavbarComponent": {
+    "AppName": "MyDiary",
+    "Home": "Home",
+    "Calendar": "Calendar",
+    "Goals": "Goals",
+    "Profile": "Profile"
+  },
+  "CalendarComponent": {
+    "Legend": {
+      "PreviousMonth": "Days from previous month",
+      "CurrentMonth": "Days of current month",
+      "NextMonth": "Days from next month",
+      "Today": "Today",
+      "SelectedDay": "Selected day"
+    }
+  },
+  "CircularTimelineComponent": {
+    "Day": "Day",
+    "Night": "Night"
+  }
+}

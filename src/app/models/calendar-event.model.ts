@@ -1,120 +1,122 @@
-export interface Tempo {
+export interface Interval
+{
   start: string; // ISO: "2026-03-06T14:00"
   end: string;   // ISO: "2026-03-06T16:00"
   note?: string;
 }
 
 // ===============================
-//  EVENTI TEMPORALI (TIMELINE)
+//  TIMELINE EVENTS
 // ===============================
 
 export type TimelineEvent =
-  | Sonno
-  | Lavoro
-  | Studio
-  | Lettura
+  | Sleep
+  | Work
+  | Study
+  | Reading
   | Sport
-  | TempoLibero
-  | AttivitaCustom;
+  | FreeTime
+  | CustomActivity;
 
-// SONNO
-export interface Sonno extends Tempo {
-  tipo: 'Sonno';
-  sogni?: string;
+// SLEEP
+export interface Sleep extends Interval {
+  type: 'Sleep';
+  dream?: string;
 }
 
-// LAVORO
-export interface Lavoro extends Tempo {
-  tipo: 'Lavoro';
+// WORK
+export interface Work extends Interval {
+  type: 'Work';
 }
 
-// STUDIO
-export interface Studio extends Tempo {
-  tipo: 'Studio';
-  materia: string;
-  scopo?: string;
+// STUDY
+export interface Study extends Interval {
+  type: 'Study';
+  subject: string;
+  goal?: string;
 }
 
-// LETTURA
-export interface Lettura extends Tempo {
-  tipo: 'Lettura';
-  libro: string;
-  autore: string;
+// READING
+export interface Reading extends Interval {
+  type: 'Reading';
+  book: string;
+  author: string;
 }
 
 // SPORT
-export interface Sport extends Tempo {
-  tipo: 'Sport';
+export interface Sport extends Interval {
+  type: 'Sport';
   sport: string;
-  Allenamento?: string;
+  workout?: string;
 }
 
-// TEMPO LIBERO
-export interface TempoLibero extends Tempo {
-  tipo: 'TempoLibero';
+// FREE TIME
+export interface FreeTime extends Interval {
+  type: 'FreeTime';
   hobby?: string;
 }
 
-// ATTIVITÀ CUSTOM
-export interface AttivitaCustom extends Tempo {
-  tipo: 'AttivitaCustom';
-  attivita: string;
-  categoria?: string;
+// CUSTOM ACTIVITY
+export interface CustomActivity extends Interval {
+  type: 'CustomActivity';
+  activity: string;
+  category?: string;
 }
 
 // ===============================
-//  EVENTI NON TEMPORALI
+//  NON-TIMED EVENTS
 // ===============================
 
 export type NonTimelineEvent =
-  | BloccoNote
-  | Spese
-  | Ricavi
-  | SpeseRicorsive
-  | EventoProgrammato;
+  | Memo
+  | Expense
+  | Income
+  | RecurringExpense
+  | ScheduledEvent;
 
-// BLOCCO NOTE
-export interface BloccoNote {
-  tipo: 'Note';
+// NOTE BLOCK
+export interface Memo {
+  type: 'Memo';
   note: string;
 }
 
-// SPESE
-export interface Spese {
-  tipo: 'Spese';
-  importoSpeso: number;
-  categoria: string;
+// EXPENSE
+export interface Expense {
+  type: 'Expense';
+  amountSpent: number;
+  category: string;
 }
 
-export interface Ricavi {
-  tipo: 'Ricavi';
-  importoRicavato: number;
-  categoria: string;
+// INCOME
+export interface Income {
+  type: 'Income';
+  amountReceived: number;
+  category: string;
 }
 
-// SPESE RICORSIVE
-export interface SpeseRicorsive {
-  tipo: 'SpeseRicorsive';
-  importoSpeso: number;
-  categoria: string;
+// RECURRING EXPENSE
+export interface RecurringExpense {
+  type: 'RecurringExpense';
+  amountSpent: number;
+  category: string;
 }
 
-// EVENTO PROGRAMMATO (non temporale)
-export interface EventoProgrammato {
-  tipo: 'EventoProgrammato';
-  data: string; // "2026-03-06"
-  evento: string;
-  ora?: string;
+// SCHEDULED EVENT (non-timed)
+export interface ScheduledEvent {
+  type: 'ScheduledEvent';
+  date: string; // "2026-03-06"
+  event: string;
+  time?: string;
   note?: string;
 }
 
 // ===============================
-//  EVENTO GENERALE DEL CALENDARIO
+//  GENERAL CALENDAR EVENT
 // ===============================
 
 export interface CalendarEvent {
   id: string;
   date: string; // "2026-03-06"
-  timeline: TimelineEvent[];       // SOLO eventi temporali
-  extra: NonTimelineEvent[];       // TUTTO il resto
+  timeline: TimelineEvent[];    // ONLY timed events
+  extra: NonTimelineEvent[];    // EVERYTHING ELSE
 }
