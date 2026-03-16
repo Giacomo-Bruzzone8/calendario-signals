@@ -9,12 +9,14 @@
       <li>{{ 'NavbarComponent.Profile' | translate }}</li>
     </ul>
 
-    <!-- Language switcher -->
-    <select [value]="currentLang" (change)="changeLanguage($event)">
-      @for (lang of availableLangs; track $index)
-      {
-        <option [value]="lang">{{ lang.toUpperCase() }}</option>
-      }
-    </select>
+    <div class="lang-switcher">
+      <img [src]="flagMap[currentLang]" alt="flag" class="lang-flag" />
+
+      <select [value]="currentLang" (change)="changeLanguage($event)">
+        @for (lang of availableLangs; track $index) {
+          <option [value]="lang">{{ lang.toUpperCase() }}</option>
+        }
+      </select>
+    </div>
   </div>
 </nav>

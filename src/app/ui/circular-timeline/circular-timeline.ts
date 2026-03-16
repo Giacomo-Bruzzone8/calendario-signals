@@ -40,24 +40,23 @@ export class CircularTimeline {
     {
       type: 'Work',
       start: '2026-03-13T09:00',
-      end: '2026-03-13T13:00',
+      end: '2026-03-13T13:00'
     },
     {
       type: 'Sport',
       start: '2026-03-13T18:00',
       end: '2026-03-13T21:00',
-      sport: 'Corsa',
+      sport: 'Corsa'
     },
     {
       type: 'Sleep',
       start: '2026-03-13T23:30',
       end: '2026-03-14T07:00',
-      dream: 'Sogno lucido',
-    },
+      dream: 'Sogno lucido'
+    }
   ];
 
   // ! SVG GEOMETRY LOGIC
-
   // Converts an angle into cartesian coordinates on the circle
   polarToCartesian(cx: number, cy: number, r: number, angle: number) {
     const rad = ((angle - 90) * Math.PI) / 180; // -90° to start from top

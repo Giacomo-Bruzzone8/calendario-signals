@@ -22,7 +22,7 @@ export class CalendarComponent implements OnDestroy{
 
   // SIGNAL
   currentDate = signal<Dayjs>(this.today);
-  currentDateSignal = signal<CalendarDay | null>(null);
+  selectedDate = signal<CalendarDay | null>(null);
   currentLang = signal<string>('');
 
   private destroy = new Subject<void>();
@@ -144,12 +144,12 @@ export class CalendarComponent implements OnDestroy{
 
   selectDay(day: CalendarDay)
   {
-    this.currentDateSignal.set(day);
+    this.selectedDate.set(day);
   }
 
   isDaySelected(candidate: CalendarDay): boolean
   {
-    const current = this.currentDateSignal();
+    const current = this.selectedDate();
     if (!current) return false;
 
     const currentDate = dayjs(`${current.year}-${current.month + 1}-${current.date}`);

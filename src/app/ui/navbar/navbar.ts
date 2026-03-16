@@ -9,15 +9,20 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 })
 export class Navbar {
   availableLangs = ['en', 'it'];
+
+  flagMap: Record<string, string> = {
+    en: '/img/flag-en.png',
+    it: '/img/flag-it.png'
+  };
+
   currentLang: string;
 
-  constructor(private translate: TranslateService)
-  {
+  constructor(private translate: TranslateService) {
     this.currentLang = translate.getCurrentLang() || 'en';
+    translate.use(this.currentLang);
   }
 
-  changeLanguage(event: any)
-  {
+  changeLanguage(event: any) {
     const lang = event.target.value;
     this.currentLang = lang;
     this.translate.use(lang);

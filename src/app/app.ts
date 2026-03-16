@@ -23,6 +23,5 @@ export class App
   constructor(private translate: TranslateService)
   {
     translate.addLangs(['it', 'en']);
-    translate.use('it');
   }
 }
