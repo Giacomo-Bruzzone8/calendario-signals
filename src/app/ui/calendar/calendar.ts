@@ -14,13 +14,11 @@ import { Subject, takeUntil } from 'rxjs';
   styleUrls: ['./calendar.scss']
 })
 export class CalendarComponent implements OnDestroy{  
-  // VARIABILI
+//! DECLARATIONS
   daysOfWeek: string[] = [];
-
-  // VARIABILI PRIVATE
   private today = dayjs();
 
-  // SIGNAL
+//! SIGNAL
   currentDate = signal<Dayjs>(this.today);
   selectedDate = signal<CalendarDay | null>(null);
   currentLang = signal<string>('');
@@ -45,7 +43,7 @@ export class CalendarComponent implements OnDestroy{
     this.destroy.complete();
   }
   
-  // COMPUTED SIGNAL
+//! COMPUTED SIGNAL
   year = computed(() => this.currentDate().year());
   month = computed(() => this.currentDate().month());
 
@@ -58,7 +56,7 @@ export class CalendarComponent implements OnDestroy{
     return monthName.charAt(0).toUpperCase() + monthName.slice(1) + ' ' + this.year();
   });
 
-  // COMPUTED SIGNAL DI TIPO CalendarDay
+//! COMPUTED SIGNAL FROM CalendarDay type
   previousMonthDays = computed<CalendarDay[]>(() => {
     const currentYear = this.year();
     const currentMonth = this.month();
@@ -127,19 +125,19 @@ export class CalendarComponent implements OnDestroy{
     ...this.nextMonthDays()
   ]);
 
-  // MANAGE CALENDAR
+//! MANAGE CALENDAR
   previousMonth()
   {
     const today = this.currentDate();
-    const oggiPassato = dayjs(today).subtract(1, 'month');
-    this.currentDate.set(oggiPassato);
+    const lastToday = dayjs(today).subtract(1, 'month');
+    this.currentDate.set(lastToday);
   }
 
   nextMonth()
   {
     const today = this.currentDate();
-    const oggiFuturo = dayjs(today).add(1, 'month');
-    this.currentDate.set(oggiFuturo);
+    const nextToday = dayjs(today).add(1, 'month');
+    this.currentDate.set(nextToday);
   }
 
   selectDay(day: CalendarDay)

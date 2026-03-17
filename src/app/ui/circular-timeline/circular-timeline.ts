@@ -56,9 +56,17 @@ export class CircularTimeline {
     }
   ];
 
+  
+  // ! LIFECYCLE HOOK
+  ngOnInit()
+  {
+    this.activityArcs = this.portions.map((p) => this.portionToAngles(p));
+  }
+
   // ! SVG GEOMETRY LOGIC
   // Converts an angle into cartesian coordinates on the circle
-  polarToCartesian(cx: number, cy: number, r: number, angle: number) {
+  polarToCartesian(cx: number, cy: number, r: number, angle: number) 
+  {
     const rad = ((angle - 90) * Math.PI) / 180; // -90° to start from top
     return {
       x: cx + r * Math.cos(rad),
@@ -67,13 +75,8 @@ export class CircularTimeline {
   }
 
   // Generates an SVG arc path between two angles
-  private drawArcPath(
-    cx: number,
-    cy: number,
-    r: number,
-    startAngle: number,
-    endAngle: number,
-  ): string {
+  private drawArcPath(cx: number, cy: number, r: number, startAngle: number, endAngle: number): string 
+  {
     const start = this.polarToCartesian(cx, cy, r, startAngle);
     const end = this.polarToCartesian(cx, cy, r, endAngle);
 
@@ -125,7 +128,7 @@ export class CircularTimeline {
 
       ticks.push({
         angle,
-        hour: hour % 24,
+        hour: hour % 24
       });
     }
 
@@ -133,10 +136,6 @@ export class CircularTimeline {
   }
 
   //! METODI PIPELINE
-  ngOnInit()
-  {
-    this.activityArcs = this.portions.map((p) => this.portionToAngles(p));
-  }
 
   private cycleStartHour(): number
   {
@@ -180,18 +179,14 @@ export class CircularTimeline {
     };
   }
 
-  private raggioPerCiclo(): number
-  {
-    return 98;
-  }
 
   drawPortionArc(p: ReturnType<typeof this.portionToAngles>): string
   {
-    const r = this.raggioPerCiclo();
-    return this.drawArcPath(100, 100, r, p.startAngle, p.endAngle);
+    return this.drawArcPath(100, 100, 98, p.startAngle, p.endAngle);
   }
 
-  private getCycleForTime(date: Dayjs): CycleType {
+  private getCycleForTime(date: Dayjs): CycleType 
+  {
     const hour = date.hour();
     const minute = date.minute();
 
@@ -231,13 +226,8 @@ export class CircularTimeline {
 
     // Helper to create a portion with correct date objects
     const makePortion = (cycle: CycleType, sMin: number, eMin: number) => {
-      const s = dayjs(start)
-        .hour(Math.floor(sMin / 60) % 24)
-        .minute(sMin % 60);
-
-      let e = dayjs(start)
-        .hour(Math.floor(eMin / 60) % 24)
-        .minute(eMin % 60);
+      const s = dayjs(start).hour(Math.floor(sMin / 60) % 24).minute(sMin % 60);
+      let e = dayjs(start).hour(Math.floor(eMin / 60) % 24).minute(eMin % 60);
 
       // If eMin exceeds 1440, we add a day
       if (eMin >= 1440) { e = e.add(1, 'day'); }
