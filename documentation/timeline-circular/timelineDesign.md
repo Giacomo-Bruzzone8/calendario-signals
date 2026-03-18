@@ -11,7 +11,7 @@ Per chiarire la visione concettuale, vengono utilizzati due schizzi preliminari 
 
 | Ciclo diurno (08 → 19) | Ciclo notturno (20 → 07) |
 |------------------------|---------------------------|
-| <img src="public/timeline-circolare-sole.png" width="220"> | <img src="public/timeline-circolare-luna.png" width="220"> |
+| <img src="./public/img/timeline-circolare-luna.png" width="220"> | <img src="./public/img/timeline-circolare-luna.png" width="220"> |
 
 ---
 
