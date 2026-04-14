@@ -22,7 +22,6 @@ interface EventPortion {
 })
 export class CircularTimeline {
   //! DECLARATIONS
-
   visibleCycle: CycleType = 'day';
   activityArcs: ReturnType<typeof this.portionToAngles>[] = [];
 

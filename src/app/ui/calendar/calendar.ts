@@ -14,16 +14,19 @@ import { Subject, takeUntil } from 'rxjs';
   styleUrls: ['./calendar.scss']
 })
 export class CalendarComponent implements OnDestroy{  
-//! DECLARATIONS
+// DECLARATIONS
   daysOfWeek: string[] = [];
   private today = dayjs();
 
-//! SIGNAL
-  currentDate = signal<Dayjs>(this.today);
-  selectedDate = signal<CalendarDay | null>(null);
-  currentLang = signal<string>('');
-
+// DESTROY
   private destroy = new Subject<void>();
+    ngOnDestroy(): void
+  {
+    this.destroy.next();
+    this.destroy.complete();
+  }
+
+// COSTRUCTOR
   constructor(private translate: TranslateService)
   {
     translate.onLangChange.pipe(takeUntil(this.destroy))
@@ -37,13 +40,12 @@ export class CalendarComponent implements OnDestroy{
     });
   }
 
-  ngOnDestroy(): void
-  {
-    this.destroy.next();
-    this.destroy.complete();
-  }
+// SIGNAL
+  currentDate = signal<Dayjs>(this.today);
+  selectedDate = signal<CalendarDay | null>(null);
+  currentLang = signal<string>('');
   
-//! COMPUTED SIGNAL
+// COMPUTED SIGNAL
   year = computed(() => this.currentDate().year());
   month = computed(() => this.currentDate().month());
 
@@ -56,7 +58,7 @@ export class CalendarComponent implements OnDestroy{
     return monthName.charAt(0).toUpperCase() + monthName.slice(1) + ' ' + this.year();
   });
 
-//! COMPUTED SIGNAL FROM CalendarDay type
+// COMPUTED SIGNAL FROM CalendarDay type
   previousMonthDays = computed<CalendarDay[]>(() => {
     const currentYear = this.year();
     const currentMonth = this.month();
@@ -79,7 +81,6 @@ export class CalendarComponent implements OnDestroy{
   currentMonthDays = computed<CalendarDay[]>(() => {
     const currentYear = this.year();
     const currentMonth = this.month();
-    
     const daysInCurrentMonth = dayjs().year(currentYear).month(currentMonth + 1).date(0).date(); // 0 → last day of previous month
 
     return Array.from({ length: daysInCurrentMonth }, (_, i) => {
@@ -125,7 +126,7 @@ export class CalendarComponent implements OnDestroy{
     ...this.nextMonthDays()
   ]);
 
-//! MANAGE CALENDAR
+// MANAGE CALENDAR
   previousMonth()
   {
     const today = this.currentDate();

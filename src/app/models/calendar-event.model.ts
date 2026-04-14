@@ -72,7 +72,7 @@ export type NonTimelineEvent =
   | Expense
   | Income
   | RecurringExpense
-  | ScheduledEvent;
+  | Reminder;
 
 // NOTE BLOCK
 export interface Memo {
@@ -102,10 +102,10 @@ export interface RecurringExpense {
 }
 
 // SCHEDULED EVENT (non-timed)
-export interface ScheduledEvent {
-  type: 'ScheduledEvent';
+export interface Reminder {
+  type: 'Reminder';
   date: string; // "2026-03-06"
-  event: string;
+  message: string;
   time?: string;
   note?: string;
 }
@@ -114,7 +114,7 @@ export interface ScheduledEvent {
 //  GENERAL CALENDAR EVENT
 // ===============================
 
-export interface CalendarEvent {
+export interface DayDetail {
   id: string;
   date: string; // "2026-03-06"
   timeline: TimelineEvent[];    // ONLY timed events
