@@ -1,29 +1,8 @@
 <div class="app-container">
-
-  <!-- NAVBAR COMPONENT -->
   <app-navbar></app-navbar>
 
-  <!-- HEADER -->
-  <header class="header">
-    <h1>{{ 'AppComponent.HeaderTitle' | translate }}</h1>
-    <p>{{ 'AppComponent.HeaderSubtitle' | translate }}</p>
-  </header>
-
-  <!-- GENGAR -->
-  <div class="image-container">
-    <img src="img/gengar.png" class="gengar-img">
-    <img src="img/duskull.png" class="duskull-img">
-  </div>
-
-  <!-- MAIN CONTENT -->
-  <main class="content">
-    <div class="calendar-wrapper">
-      <app-calendar />
-    </div>
+  <main class="app-content">
+    <router-outlet></router-outlet>
+    <app-circular-timeline></app-circular-timeline>
   </main>
-
-   <!-- TIMELINE -->
-  <div class="timeline-container">
-    <app-circular-timeline />
-  </div>
 </div>
