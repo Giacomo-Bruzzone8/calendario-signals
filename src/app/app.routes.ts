@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { Router, Routes } from '@angular/router';
 import { Home } from './home/home';
-import { formatDate, parseDate } from './pages/date-utils';
+import { formatDate, parseDate } from './functions/date-utils';
 
 export const routes: Routes = [
   {
@@ -15,7 +15,7 @@ export const routes: Routes = [
   // Calendar
   {
     path: 'calendar',
-    loadComponent: () => import('./pages/calendar-page').then(m => m.CalendarPage),
+    loadComponent: () => import('./ui/calendar/calendar').then(m => m.CalendarComponent),
   },
   
   // Goals
@@ -42,7 +42,7 @@ export const routes: Routes = [
       route => parseDate(route.paramMap.get('date') ?? '') !== null
         || inject(Router).createUrlTree(['/calendar']),
     ],
-    loadComponent: () => import('./pages/day-page').then(m => m.DayPage),
+    loadComponent: () => import('./ui/day-detail/day-detail').then(m => m.DayDetailComponent),
   },
 
   {
