@@ -8,7 +8,6 @@ import 'dayjs/locale/en';
 
 import localeData from 'dayjs/plugin/localeData';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
-import { CircularTimeline } from "./ui/circular-timeline/circular-timeline";
 
 dayjs.extend(localeData);
 dayjs.extend(localizedFormat);
@@ -16,7 +15,7 @@ dayjs.extend(localizedFormat);
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, TranslateModule, Navbar, CircularTimeline],
+  imports: [RouterOutlet, TranslateModule, Navbar],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
