@@ -8,7 +8,10 @@
     "Home": "Home",
     "Calendar": "Calendario",
     "Goals": "Obiettivi",
-    "Profile": "Profilo"
+    "Profile": "Profilo",
+    "DayDetail": "Dettaglio del giorno",
+    "Navigation": "Navigazione principale",
+    "Language": "Lingua"
   },
   "CalendarComponent": {
     "Legend": {
@@ -16,11 +19,41 @@
       "CurrentMonth": "Giorni del mese corrente",
       "NextMonth": "Giorni del mese successivo",
       "Today": "Oggi",
-      "SelectedDay": "Giorno selezionato"
+      "SelectedDay": "Giorno selezionato",
+      "HasContent": "Contenuti registrati"
     }
   },
   "CircularTimelineComponent": {
     "Day": "Luce",
-    "Night": "Buio"
+    "Night": "Buio",
+    "Description": "Timeline circolare delle attività della giornata"
+  },
+  "Pages": {
+    "CalendarDescription": "Scegli un giorno per visualizzare le sue attività.",
+    "ComingSoon": "Questa sezione è in preparazione.",
+    "OpenCalendar": "Apri il calendario"
+  },
+  "DayDetailComponent": {
+    "Timeline": "Timeline della giornata",
+    "Activities": "Attività della giornata",
+    "Extra": "Note e altre informazioni",
+    "Summary": "{{count}} attività · {{minutes}} minuti registrati",
+    "Duration": "{{minutes}} min",
+    "EmptyActivities": "Nessuna attività registrata per questa giornata.",
+    "EmptyExtra": "Nessuna informazione aggiuntiva registrata per questa giornata."
+  },
+  "EventTypes": {
+    "Sleep": "Sonno",
+    "Work": "Lavoro",
+    "Study": "Studio",
+    "Reading": "Lettura",
+    "Sport": "Sport",
+    "FreeTime": "Tempo libero",
+    "CustomActivity": "Attività personalizzata",
+    "Memo": "Nota",
+    "Expense": "Spesa",
+    "Income": "Entrata",
+    "RecurringExpense": "Spesa ricorrente",
+    "Reminder": "Promemoria"
   }
 }

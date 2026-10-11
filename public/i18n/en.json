@@ -8,7 +8,10 @@
     "Home": "Home",
     "Calendar": "Calendar",
     "Goals": "Goals",
-    "Profile": "Profile"
+    "Profile": "Profile",
+    "DayDetail": "Day Detail",
+    "Navigation": "Main navigation",
+    "Language": "Language"
   },
   "CalendarComponent": {
     "Legend": {
@@ -16,11 +19,41 @@
       "CurrentMonth": "Days of current month",
       "NextMonth": "Days from next month",
       "Today": "Today",
-      "SelectedDay": "Selected day"
+      "SelectedDay": "Selected day",
+      "HasContent": "Recorded content"
     }
   },
   "CircularTimelineComponent": {
     "Day": "Day",
-    "Night": "Night"
+    "Night": "Night",
+    "Description": "Circular timeline of daily activities"
+  },
+  "Pages": {
+    "CalendarDescription": "Choose a day to view its activities.",
+    "ComingSoon": "This section is coming soon.",
+    "OpenCalendar": "Open calendar"
+  },
+  "DayDetailComponent": {
+    "Timeline": "Daily timeline",
+    "Activities": "Daily activities",
+    "Extra": "Notes and other information",
+    "Summary": "{{count}} activities · {{minutes}} minutes recorded",
+    "Duration": "{{minutes}} min",
+    "EmptyActivities": "No activities recorded for this day.",
+    "EmptyExtra": "No additional information recorded for this day."
+  },
+  "EventTypes": {
+    "Sleep": "Sleep",
+    "Work": "Work",
+    "Study": "Study",
+    "Reading": "Reading",
+    "Sport": "Sport",
+    "FreeTime": "Free time",
+    "CustomActivity": "Custom activity",
+    "Memo": "Note",
+    "Expense": "Expense",
+    "Income": "Income",
+    "RecurringExpense": "Recurring expense",
+    "Reminder": "Reminder"
   }
 }
