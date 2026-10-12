@@ -1,15 +1,23 @@
-import { Component, signal, computed, OnDestroy } from '@angular/core';
+import { Component, signal, computed, inject, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { formatDate } from '../../functions/date-utils';
 import { CalendarDay } from '../../models/calendar-day.model';
+import { StorageService } from '../../services/storage.service';
 
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import dayjs, { Dayjs } from 'dayjs';
+import localeData from 'dayjs/plugin/localeData';
+import 'dayjs/locale/it';
+import 'dayjs/locale/en';
 import { Subject, takeUntil } from 'rxjs';
+
+dayjs.extend(localeData);
 
 @Component({
   selector: 'app-calendar',
   standalone: true,
-  imports: [CommonModule, TranslateModule],
+  imports: [CommonModule, TranslateModule, RouterLink],
   templateUrl: './calendar.html',
   styleUrls: ['./calendar.scss']
 })
@@ -17,6 +25,7 @@ export class CalendarComponent implements OnDestroy{
 // DECLARATIONS
   daysOfWeek: string[] = [];
   private today = dayjs();
+  private readonly storage = inject(StorageService);
 
 // DESTROY
   private destroy = new Subject<void>();
@@ -29,15 +38,22 @@ export class CalendarComponent implements OnDestroy{
 // COSTRUCTOR
   constructor(private translate: TranslateService)
   {
+    this.updateLanguage(translate.getCurrentLang() || 'en');
     translate.onLangChange.pipe(takeUntil(this.destroy))
     .subscribe((event) => {
-      this.currentLang.set(event.lang);
-
-      dayjs.locale(this.currentLang());
-
-      const weekdays = dayjs.weekdaysShort().map(g => g.charAt(0).toUpperCase() + g.slice(1));
-      this.daysOfWeek = [...weekdays.slice(1), weekdays[0]];
+      this.updateLanguage(event.lang);
     });
+  }
+
+  private updateLanguage(lang: string): void {
+    this.currentLang.set(lang);
+    const weekdays = dayjs().locale(lang).localeData().weekdaysShort()
+      .map(g => g.charAt(0).toUpperCase() + g.slice(1));
+    this.daysOfWeek = [...weekdays.slice(1), weekdays[0]];
+  }
+
+  dayLink(day: CalendarDay): string[] {
+    return ['/day', formatDate(new Date(day.year, day.month, day.date))];
   }
 
 // SIGNAL
@@ -46,6 +62,14 @@ export class CalendarComponent implements OnDestroy{
   currentLang = signal<string>('');
   
 // COMPUTED SIGNAL
+  datesWithContent = computed(() => new Set(Object.values(this.storage.days())
+    .filter(day => day.timeline.length > 0 || day.extra.length > 0)
+    .map(day => day.date)));
+
+  hasContent(day: CalendarDay): boolean {
+    return this.datesWithContent().has(this.dayLink(day)[1]);
+  }
+
   year = computed(() => this.currentDate().year());
   month = computed(() => this.currentDate().month());
 
