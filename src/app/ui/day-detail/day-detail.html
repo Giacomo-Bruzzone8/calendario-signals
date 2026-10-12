@@ -1,0 +1,56 @@
+<section class="day-detail">
+  <header class="header">
+    <a class="back" [routerLink]="backLink()">‹ {{ 'NavbarComponent.Calendar' | translate }}</a>
+    <div class="weekday-row">
+      <span class="weekday">{{ weekday() }}</span>
+      @if (isToday()) {
+        <span class="badge-today">{{ 'CalendarComponent.Legend.Today' | translate }}</span>
+      }
+    </div>
+    <h1>{{ fullDate() }}</h1>
+  </header>
+
+  <div class="day-content">
+    <section class="timeline-panel" [attr.aria-label]="'DayDetailComponent.Timeline' | translate">
+      <h2>{{ 'DayDetailComponent.Timeline' | translate }}</h2>
+      <app-circular-timeline [events]="timeline()" [date]="date()" />
+    </section>
+
+    <section class="activities-panel">
+      <h2>{{ 'DayDetailComponent.Activities' | translate }}</h2>
+      @if (activities().length) {
+        <p class="summary">{{ 'DayDetailComponent.Summary' | translate: { count: activities().length, minutes: totalMinutes() } }}</p>
+        <ul class="activity-list">
+          @for (activity of activities(); track $index) {
+            <li class="activity" [style.--event-color]="eventColors[activity.type]">
+              <div class="activity-header">
+                <h3>{{ activityTitle(activity) || ('EventTypes.' + activity.type | translate) }}</h3>
+                <span>{{ activityTime(activity) }}</span>
+              </div>
+              <p class="activity-category">{{ 'EventTypes.' + activity.type | translate }} · {{ 'DayDetailComponent.Duration' | translate: { minutes: activityMinutes(activity) } }}</p>
+              @if (activityDescription(activity)) {
+                <p>{{ activityDescription(activity) }}</p>
+              }
+            </li>
+          }
+        </ul>
+      } @else {
+        <p class="empty-state">{{ 'DayDetailComponent.EmptyActivities' | translate }}</p>
+      }
+    </section>
+
+    <section class="extra-panel">
+      <h2>{{ 'DayDetailComponent.Extra' | translate }}</h2>
+      <ul class="extra-list">
+        @for (item of extra(); track $index) {
+          <li>
+            <h3>{{ 'EventTypes.' + item.type | translate }}</h3>
+            <p>{{ extraDescription(item) }}</p>
+          </li>
+        } @empty {
+          <li class="empty-state">{{ 'DayDetailComponent.EmptyExtra' | translate }}</li>
+        }
+      </ul>
+    </section>
+  </div>
+</section>

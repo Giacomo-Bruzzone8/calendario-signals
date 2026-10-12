@@ -1,0 +1,53 @@
+@use '../../../styles/theme';
+
+:host { display: block; }
+
+.day-detail {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 32px 16px;
+}
+
+.header {
+  margin-bottom: 24px;
+  h1 { margin: 12px 0 0; font-size: clamp(1.6rem, 4vw, 2.4rem); }
+}
+
+.back { display: inline-block; margin-bottom: 16px; color: var(--accent); }
+.weekday-row { display: flex; align-items: center; gap: 12px; }
+.weekday { text-transform: capitalize; }
+.badge-today {
+  padding: 4px 8px;
+  border-radius: var(--border-radius);
+  background: var(--today-color);
+  color: var(--surface-background);
+}
+
+.day-content {
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) minmax(0, 2fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.timeline-panel {
+  @include theme.panel;
+  text-align: center;
+}
+
+.activities-panel, .extra-panel { @include theme.surface; }
+.extra-panel { grid-column: 1 / -1; }
+h2 { margin: 0 0 20px; font-size: 1.4rem; }
+h3 { margin: 0; font-size: 1rem; }
+.summary, .empty-state, .activity-category { color: var(--surface-muted); }
+.activity-list, .extra-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 16px; }
+.activity { padding-left: 12px; border-left: 4px solid var(--event-color); }
+.activity-header { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; }
+.activity p, .extra-list p { margin: 8px 0 0; overflow-wrap: anywhere; }
+.activity-header span { font-variant-numeric: tabular-nums; }
+.empty-state { margin: 0; line-height: 1.6; }
+.back:focus-visible { outline: 2px solid var(--focus-color); outline-offset: 4px; }
+
+@media (max-width: 700px) {
+  .day-content { grid-template-columns: minmax(0, 1fr); }
+}
