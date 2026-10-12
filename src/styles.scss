@@ -1,7 +1,15 @@
+@use './styles/theme';
+
+:root {
+  @include theme.tokens;
+}
+
 body
 {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
- background: #1f1f22;
+  background: var(--app-background);
+  color: var(--app-text);
+  font-family: var(--app-font);
 }

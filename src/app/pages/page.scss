@@ -1,0 +1,9 @@
+.page {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 32px 16px;
+  text-align: center;
+
+  p { opacity: 0.8; line-height: 1.6; }
+  a { color: var(--accent); }
+}
