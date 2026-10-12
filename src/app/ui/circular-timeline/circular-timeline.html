@@ -1,11 +1,12 @@
 <div class="timeline-container">
   <!-- CONTROLS -->
   <div class="control-buttons">
-    <button (click)="visibleCycle = 'day'" [class.active]="visibleCycle === 'day'">{{ 'CircularTimelineComponent.Day' | translate }}</button>
-    <button (click)="visibleCycle = 'night'" [class.active]="visibleCycle === 'night'">{{ 'CircularTimelineComponent.Night' | translate }}</button>
+    <button type="button" (click)="setCycle('day')" [class.active]="visibleCycle() === 'day'" [attr.aria-pressed]="visibleCycle() === 'day'">{{ 'CircularTimelineComponent.Day' | translate }}</button>
+    <button type="button" (click)="setCycle('night')" [class.active]="visibleCycle() === 'night'" [attr.aria-pressed]="visibleCycle() === 'night'">{{ 'CircularTimelineComponent.Night' | translate }}</button>
   </div>
 
-  <svg [class.day]="visibleCycle === 'day'" [class.night]="visibleCycle === 'night'"
+  <svg [class.day]="visibleCycle() === 'day'" [class.night]="visibleCycle() === 'night'"
+    role="img" [attr.aria-label]="'CircularTimelineComponent.Description' | translate"
     width="240"
     height="240"
     viewBox="0 0 200 200">
@@ -19,22 +20,22 @@
     
     <!-- CENTRAL ICON (SUN / MOON) -->
     <g class="center-icon">
-      @if (visibleCycle === 'day')
+      @if (visibleCycle() === 'day')
       {
         <!-- SUN -->
-        <image href="img/sun.png" x="75" y="75" width="50" height="50" />
+        <image href="/img/sun.png" x="75" y="75" width="50" height="50" />
       }
       @else
       {
         <!-- MOON -->
-        <image href="img/moon.png" x="81" y="81" width="38" height="38" /> 
+        <image href="/img/moon.png" x="81" y="81" width="38" height="38" />
       }
     </g>
 
 
     <!-- HOUR TICKS -->
     <g class="ticks">
-      @for (t of getTicks(); track t.angle)
+      @for (t of ticks(); track t.angle)
       {
         <path class="tick-path"
           [attr.d]="buildTickPath(t.angle)"
@@ -55,19 +56,16 @@
 
     <!-- ACTIVITY ARCS FOR THE SELECTED CYCLE -->
     <g class="activity-arcs">
-      @for (arc of activityArcs; track arc.startAngle)
+      @for (arc of activityArcs(); track $index)
       {
-        @if (arc.cycle === visibleCycle)
-        {
-          <path
-            class="arc"
-            [attr.d]="drawPortionArc(arc)"
-            [attr.stroke]="getColorForEvent(arc.originalEvent)"
-            stroke-width="7"
-            fill="none"
-            stroke-linecap="round"
-          />
-        }
+        <path
+          class="arc"
+          [attr.d]="drawPortionArc(arc)"
+          [attr.stroke]="getColorForEvent(arc.event)"
+          stroke-width="7"
+          fill="none"
+          stroke-linecap="round"
+        />
       }
     </g>
   </svg>

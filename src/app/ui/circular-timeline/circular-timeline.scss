@@ -1,10 +1,11 @@
 .timeline-container
 {
-  width: 240px;
+  width: 100%;
+  max-width: 240px;
   margin: 0 auto;
   text-align: center;
-  font-family: system-ui, sans-serif;
-  color: white;
+  font-family: var(--app-font);
+  color: var(--surface-background);
 
   display: block;
 
@@ -21,19 +22,19 @@
       font-size: 12px;
       border: none;
       border-radius: 4px;
-      background: #444;
-      color: white;
+      background: var(--control-background);
+      color: var(--surface-background);
       cursor: pointer;
       transition: background 0.2s;
 
       &.active
       {
-        background-color: #4c2a85;
+        background-color: var(--panel-background);
       }
 
       &:hover
       {
-        background: #666;
+        background: var(--control-hover);
       }
     }
   }
@@ -41,7 +42,10 @@
 
 svg
 {
-  background: #111;
+  display: block;
+  width: 100%;
+  height: auto;
+  background: var(--timeline-background);
   border-radius: 50%;
 
   .hour-label
@@ -55,20 +59,20 @@ svg.day
 {
   .main-circle
   {
-    stroke: #f9cb30;
-    fill: #88cbe0;
+    stroke: var(--day-ring);
+    fill: var(--day-background);
   }
 
   .ticks 
   {
     .tick-path
     {
-      stroke: #FFC107;
+      stroke: var(--day-tick);
     }
 
     .hour-label
     {
-      fill: black;
+      fill: var(--surface-text);
     }
   }
 }
@@ -77,20 +81,25 @@ svg.night
 {
   .main-circle
   {
-    stroke: #3F51B5;
-    fill: #11061c;
+    stroke: var(--night-ring);
+    fill: var(--night-background);
   }
 
   .ticks
   {
     .tick-path
     {
-      stroke: #3F51B5;
+      stroke: var(--night-ring);
     }
 
     .hour-label
     {
-      fill: #ede1b3;
+      fill: var(--night-text);
     }
   }
+}
+
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
 }
