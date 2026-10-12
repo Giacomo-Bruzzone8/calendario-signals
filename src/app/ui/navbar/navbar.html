@@ -1,18 +1,19 @@
-<nav class="navbar">
-  <div class="logo">{{ 'NavbarComponent.AppName' | translate }}</div>
+<nav class="navbar" [attr.aria-label]="'NavbarComponent.Navigation' | translate">
+  <a class="logo" routerLink="/">{{ 'NavbarComponent.AppName' | translate }}</a>
 
   <div class="right-section">
     <ul class="nav-links">
-      <li>{{ 'NavbarComponent.Home' | translate }}</li>
-      <li>{{ 'NavbarComponent.Calendar' | translate }}</li>
-      <li>{{ 'NavbarComponent.Goals' | translate }}</li>
-      <li>{{ 'NavbarComponent.Profile' | translate }}</li>
+      <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" ariaCurrentWhenActive="page">{{ 'NavbarComponent.Home' | translate }}</a></li>
+      <li><a routerLink="/calendar" routerLinkActive="active" ariaCurrentWhenActive="page">{{ 'NavbarComponent.Calendar' | translate }}</a></li>
+      <li><a routerLink="/goals" routerLinkActive="active" ariaCurrentWhenActive="page">{{ 'NavbarComponent.Goals' | translate }}</a></li>
+      <li><a routerLink="/profile" routerLinkActive="active" ariaCurrentWhenActive="page">{{ 'NavbarComponent.Profile' | translate }}</a></li>
+      <li><a routerLink="/day" routerLinkActive="active" ariaCurrentWhenActive="page">{{ 'NavbarComponent.DayDetail' | translate }}</a></li>
     </ul>
 
     <div class="lang-switcher">
-      <img [src]="flagMap[currentLang]" alt="flag" class="lang-flag" />
+      <img [src]="flagMap[currentLang]" alt="" class="lang-flag" />
 
-      <select [value]="currentLang" (change)="changeLanguage($event)">
+      <select [attr.aria-label]="'NavbarComponent.Language' | translate" [value]="currentLang" (change)="changeLanguage($event)">
         @for (lang of availableLangs; track $index) {
           <option [value]="lang">{{ lang.toUpperCase() }}</option>
         }
