@@ -1,0 +1,58 @@
+// Colori e definizioni condivisi da tutte le viste del diario.
+@mixin tokens {
+  --app-background: #1f1f22;
+  --app-text: #f2f2f2;
+  --app-font: 'Inter', system-ui, sans-serif;
+  --panel-background: #4c2a85;
+  --navbar-background: #2b184b;
+  --accent: #d9bbff;
+  --focus-color: #7040ba;
+  --surface-background: #fff;
+  --surface-text: #000;
+  --surface-muted: #666;
+  --surface-border: #aaa;
+  --surface-font: Arial, sans-serif;
+  --previous-month: var(--surface-border);
+  --next-month: #5cb85c;
+  --today-color: #007bff;
+  --selected-color: red;
+  --border-radius: 12px;
+  --surface-padding: 25px;
+  --surface-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --panel-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+  --navbar-border: rgba(255, 255, 255, 0.1);
+  --timeline-background: #111;
+  --control-background: #444;
+  --control-hover: var(--surface-muted);
+  --day-ring: #f9cb30;
+  --day-background: #88cbe0;
+  --day-tick: #ffc107;
+  --night-ring: #3f51b5;
+  --night-background: #11061c;
+  --night-text: #ede1b3;
+  --event-sleep: magenta;
+  --event-work: var(--selected-color);
+  --event-study: #2196f3;
+  --event-reading: var(--night-ring);
+  --event-sport: cyan;
+  --event-free-time: #009688;
+  --event-custom-activity: #795548;
+}
+
+@mixin surface {
+  box-sizing: border-box;
+  padding: var(--surface-padding);
+  border-radius: var(--border-radius);
+  background: var(--surface-background);
+  color: var(--surface-text);
+  box-shadow: var(--surface-shadow);
+  font-family: var(--surface-font);
+}
+
+@mixin panel {
+  box-sizing: border-box;
+  padding: var(--surface-padding);
+  border-radius: var(--border-radius);
+  background: var(--panel-background);
+  box-shadow: var(--panel-shadow);
+}
