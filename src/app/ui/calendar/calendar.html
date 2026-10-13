@@ -28,20 +28,28 @@
   <div class="grid-calendar">
     @for (day of calendarDays(); track day.year + '-' + day.month + '-' + day.date)
     {
-      <a class="calendar-cell"
-           [routerLink]="dayLink(day)"
+      <div class="calendar-day">
+        <button type="button" class="calendar-cell"
            [attr.aria-label]="dayLink(day)[1] + (hasContent(day) ? ' · ' + ('CalendarComponent.Legend.HasContent' | translate) : '')"
+           [attr.aria-pressed]="isDaySelected(day)"
            [class.current-month]="day.currentMonth"
            [class.previous-month]="day.previousMonth"
            [class.next-month]="day.nextMonth"
            [class.today]="day.isToday"
            [class.selected]="isDaySelected(day)"
-           (click)="selectDay(day)">
-        {{ day.date }}
-        @if (hasContent(day)) {
-          <span class="content-indicator" aria-hidden="true"></span>
+           (click)="selectDay(day)"
+           (contextmenu)="openDayMenu($event, day)">
+          {{ day.date }}
+          @if (hasContent(day)) {
+            <span class="content-indicator" aria-hidden="true"></span>
+          }
+        </button>
+        @if (menuDay() === day) {
+          <div class="calendar-context-menu">
+            <a [routerLink]="dayLink(day)">{{ 'CalendarComponent.OpenDayDetail' | translate }}</a>
+          </div>
         }
-      </a>
+      </div>
     }
   </div>
 

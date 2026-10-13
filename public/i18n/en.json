@@ -4,7 +4,7 @@
     "HeaderSubtitle": "Organize your days, note thoughts, goals, and milestones."
   },
   "NavbarComponent": {
-    "AppName": "MyDiary",
+    "AppName": "Chrono",
     "Home": "Home",
     "Calendar": "Calendar",
     "Goals": "Goals",
@@ -14,6 +14,7 @@
     "Language": "Language"
   },
   "CalendarComponent": {
+    "OpenDayDetail": "Open day details",
     "Legend": {
       "PreviousMonth": "Days from previous month",
       "CurrentMonth": "Days of current month",
@@ -29,7 +30,7 @@
     "Description": "Circular timeline of daily activities"
   },
   "Pages": {
-    "CalendarDescription": "Choose a day to view its activities.",
+    "CalendarDescription": "Click a day to select it; right-click to open its details.",
     "ComingSoon": "This section is coming soon.",
     "OpenCalendar": "Open calendar"
   },

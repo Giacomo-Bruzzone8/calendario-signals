@@ -4,7 +4,7 @@
     "HeaderSubtitle": "Organizza le tue giornate, annota pensieri, obiettivi e traguardi."
   },
   "NavbarComponent": {
-    "AppName": "MyDiary",
+    "AppName": "Crono",
     "Home": "Home",
     "Calendar": "Calendario",
     "Goals": "Obiettivi",
@@ -14,6 +14,7 @@
     "Language": "Lingua"
   },
   "CalendarComponent": {
+    "OpenDayDetail": "Apri dettaglio del giorno",
     "Legend": {
       "PreviousMonth": "Giorni del mese precedente",
       "CurrentMonth": "Giorni del mese corrente",
@@ -29,7 +30,7 @@
     "Description": "Timeline circolare delle attività della giornata"
   },
   "Pages": {
-    "CalendarDescription": "Scegli un giorno per visualizzare le sue attività.",
+    "CalendarDescription": "Seleziona un giorno con un clic; usa il tasto destro per aprire il dettaglio.",
     "ComingSoon": "Questa sezione è in preparazione.",
     "OpenCalendar": "Apri il calendario"
   },

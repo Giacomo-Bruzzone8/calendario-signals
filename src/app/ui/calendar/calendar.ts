@@ -1,4 +1,4 @@
-import { Component, signal, computed, inject, OnDestroy } from '@angular/core';
+import { Component, signal, computed, inject, HostListener, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { formatDate } from '../../functions/date-utils';
@@ -59,6 +59,7 @@ export class CalendarComponent implements OnDestroy{
 // SIGNAL
   currentDate = signal<Dayjs>(this.today);
   selectedDate = signal<CalendarDay | null>(null);
+  menuDay = signal<CalendarDay | null>(null);
   currentLang = signal<string>('');
   
 // COMPUTED SIGNAL
@@ -153,6 +154,7 @@ export class CalendarComponent implements OnDestroy{
 // MANAGE CALENDAR
   previousMonth()
   {
+    this.closeMenu();
     const today = this.currentDate();
     const lastToday = dayjs(today).subtract(1, 'month');
     this.currentDate.set(lastToday);
@@ -160,6 +162,7 @@ export class CalendarComponent implements OnDestroy{
 
   nextMonth()
   {
+    this.closeMenu();
     const today = this.currentDate();
     const nextToday = dayjs(today).add(1, 'month');
     this.currentDate.set(nextToday);
@@ -168,6 +171,21 @@ export class CalendarComponent implements OnDestroy{
   selectDay(day: CalendarDay)
   {
     this.selectedDate.set(day);
+    this.closeMenu();
+  }
+
+  openDayMenu(event: MouseEvent, day: CalendarDay): void
+  {
+    event.preventDefault();
+    this.selectedDate.set(day);
+    this.menuDay.set(day);
+  }
+
+  @HostListener('document:click')
+  @HostListener('document:keydown.escape')
+  closeMenu(): void
+  {
+    this.menuDay.set(null);
   }
 
   isDaySelected(candidate: CalendarDay): boolean
@@ -175,9 +193,8 @@ export class CalendarComponent implements OnDestroy{
     const current = this.selectedDate();
     if (!current) return false;
 
-    const currentDate = dayjs(`${current.year}-${current.month + 1}-${current.date}`);
-    const candidateDate = dayjs(`${candidate.year}-${candidate.month + 1}-${candidate.date}`);
-
-    return candidate.currentMonth && currentDate.isSame(candidateDate, 'day') || false;
+    return current.year === candidate.year
+      && current.month === candidate.month
+      && current.date === candidate.date;
   }
 }
