@@ -97,11 +97,18 @@
     background: var(--surface-background);
     box-shadow: var(--surface-shadow);
 
-    a {
+    a, button {
       display: block;
+      box-sizing: border-box;
+      width: 100%;
       padding: 8px 10px;
+      border: 0;
+      background: transparent;
       color: var(--surface-text);
+      font: inherit;
+      text-align: left;
       text-decoration: none;
+      cursor: pointer;
 
       &:hover, &:focus-visible {
         background: var(--focus-color);

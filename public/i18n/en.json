@@ -15,6 +15,7 @@
   },
   "CalendarComponent": {
     "OpenDayDetail": "Open day details",
+    "ManageActivities": "Manage activities",
     "Legend": {
       "PreviousMonth": "Days from previous month",
       "CurrentMonth": "Days of current month",
@@ -30,7 +31,7 @@
     "Description": "Circular timeline of daily activities"
   },
   "Pages": {
-    "CalendarDescription": "Click a day to select it; right-click to open its details.",
+    "CalendarDescription": "Click a day to select it; right-click to see its options.",
     "ComingSoon": "This section is coming soon.",
     "OpenCalendar": "Open calendar"
   },
@@ -42,6 +43,36 @@
     "Duration": "{{minutes}} min",
     "EmptyActivities": "No activities recorded for this day.",
     "EmptyExtra": "No additional information recorded for this day."
+  },
+  "DayActivityEditor": {
+    "Manage": "Manage day activities",
+    "Close": "Close window",
+    "ClearForm": "Clear form",
+    "RecordedActivities": "Recorded activities",
+    "EmptyActivities": "No activities recorded for this day.",
+    "Add": "Add activity",
+    "Edit": "Edit",
+    "Delete": "Delete",
+    "ConfirmDelete": "Delete this activity?",
+    "Confirm": "Confirm",
+    "Save": "Save",
+    "Cancel": "Cancel",
+    "Type": "Activity type",
+    "Start": "Start",
+    "End": "End",
+    "Note": "Note",
+    "Dream": "Dream",
+    "Subject": "Subject",
+    "Goal": "Goal",
+    "Book": "Book",
+    "Author": "Author",
+    "Sport": "Sport",
+    "Workout": "Workout",
+    "Hobby": "Hobby",
+    "Activity": "Activity",
+    "Category": "Category",
+    "RequiredFields": "Complete the required fields.",
+    "InvalidInterval": "Enter a valid time interval within the selected day."
   },
   "EventTypes": {
     "Sleep": "Sleep",

@@ -15,6 +15,7 @@
   },
   "CalendarComponent": {
     "OpenDayDetail": "Apri dettaglio del giorno",
+    "ManageActivities": "Gestisci attività",
     "Legend": {
       "PreviousMonth": "Giorni del mese precedente",
       "CurrentMonth": "Giorni del mese corrente",
@@ -30,7 +31,7 @@
     "Description": "Timeline circolare delle attività della giornata"
   },
   "Pages": {
-    "CalendarDescription": "Seleziona un giorno con un clic; usa il tasto destro per aprire il dettaglio.",
+    "CalendarDescription": "Seleziona un giorno con un clic; usa il tasto destro per vedere le opzioni.",
     "ComingSoon": "Questa sezione è in preparazione.",
     "OpenCalendar": "Apri il calendario"
   },
@@ -42,6 +43,36 @@
     "Duration": "{{minutes}} min",
     "EmptyActivities": "Nessuna attività registrata per questa giornata.",
     "EmptyExtra": "Nessuna informazione aggiuntiva registrata per questa giornata."
+  },
+  "DayActivityEditor": {
+    "Manage": "Gestisci le attività del giorno",
+    "Close": "Chiudi finestra",
+    "ClearForm": "Pulisci modulo",
+    "RecordedActivities": "Attività registrate",
+    "EmptyActivities": "Nessuna attività registrata per questo giorno.",
+    "Add": "Aggiungi attività",
+    "Edit": "Modifica",
+    "Delete": "Elimina",
+    "ConfirmDelete": "Eliminare questa attività?",
+    "Confirm": "Conferma",
+    "Save": "Salva",
+    "Cancel": "Annulla",
+    "Type": "Tipo di attività",
+    "Start": "Inizio",
+    "End": "Fine",
+    "Note": "Nota",
+    "Dream": "Sogno",
+    "Subject": "Materia",
+    "Goal": "Obiettivo",
+    "Book": "Libro",
+    "Author": "Autore",
+    "Sport": "Sport",
+    "Workout": "Allenamento",
+    "Hobby": "Passatempo",
+    "Activity": "Attività",
+    "Category": "Categoria",
+    "RequiredFields": "Compila i campi obbligatori.",
+    "InvalidInterval": "Inserisci un intervallo valido all'interno della giornata selezionata."
   },
   "EventTypes": {
     "Sleep": "Sonno",

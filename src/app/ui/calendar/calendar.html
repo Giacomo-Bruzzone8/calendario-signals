@@ -47,6 +47,7 @@
         @if (menuDay() === day) {
           <div class="calendar-context-menu">
             <a [routerLink]="dayLink(day)">{{ 'CalendarComponent.OpenDayDetail' | translate }}</a>
+            <button type="button" (click)="openActivityEditor(day)">{{ 'CalendarComponent.ManageActivities' | translate }}</button>
           </div>
         }
       </div>
@@ -82,3 +83,7 @@
     </div>
   </div>
 </div>
+
+@if (editorDate(); as date) {
+  <app-day-activity-editor [date]="date" (closed)="closeActivityEditor()" />
+}
